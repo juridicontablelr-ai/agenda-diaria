@@ -1,0 +1,1156 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Power Fit · Agenda Activa</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&display=swap">
+<style>
+/* Layout: marca Power Fit (morado + ámbar). Encabezado de marca, pestañas, y tres vistas: catálogo filtrable, semana tipo, calendario nov–dic. */
+:root{
+  --bg:#f7f4fa; --surface:#ffffff; --ink:#1e1029; --muted:#6b5c78; --line:#e4dcec;
+  --brand:#3b0f5c; --brand-ink:#ffffff; --amber:#f5a623; --amber-soft:#fff1d6; --amber-ink:#5a3a00;
+  --c-trab:#e9e4ef; --c-ej:#dff3e7; --c-pf:#fff1d6; --c-bien:#e3eefb; --c-soc:#fbe4ef; --c-desc:#efeaf4;
+  --t-trab:#4d4458; --t-ej:#1d6b3d; --t-pf:#7a4d00; --t-bien:#1f4f8a; --t-soc:#8a2a5a; --t-desc:#5b4d6a;
+  --ok:#1d6b3d;
+  --f-display:"Rajdhani","Arial Narrow",system-ui,sans-serif;
+  --f-body:"DM Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#130a1c; --surface:#1d1229; --ink:#f1eaf7; --muted:#a898b6; --line:#33243f;
+  --brand:#2a0b42; --brand-ink:#ffffff; --amber:#f7b23c; --amber-soft:#3a2810; --amber-ink:#ffd58a;
+  --c-trab:#2a2134; --c-ej:#14301f; --c-pf:#3a2810; --c-bien:#14253d; --c-soc:#3a1428; --c-desc:#241a30;
+  --t-trab:#c9bdd6; --t-ej:#8fdcae; --t-pf:#ffd58a; --t-bien:#9cc4f5; --t-soc:#f4a3c9; --t-desc:#c2b3d2;
+  --ok:#8fdcae; color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#130a1c; --surface:#1d1229; --ink:#f1eaf7; --muted:#a898b6; --line:#33243f;
+  --brand:#2a0b42; --brand-ink:#ffffff; --amber:#f7b23c; --amber-soft:#3a2810; --amber-ink:#ffd58a;
+  --c-trab:#2a2134; --c-ej:#14301f; --c-pf:#3a2810; --c-bien:#14253d; --c-soc:#3a1428; --c-desc:#241a30;
+  --t-trab:#c9bdd6; --t-ej:#8fdcae; --t-pf:#ffd58a; --t-bien:#9cc4f5; --t-soc:#f4a3c9; --t-desc:#c2b3d2;
+  --ok:#8fdcae; color-scheme:dark }
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.5}
+.wrap{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header.top{background:var(--brand);color:var(--brand-ink)}
+header.top .wrap{padding-block:28px 0;display:flex;flex-direction:column;gap:14px}
+.eyebrow{font-family:var(--f-display);letter-spacing:.14em;text-transform:uppercase;color:var(--amber);font-weight:700;font-size:14px}
+h1{font-family:var(--f-display);font-weight:700;font-size:clamp(34px,6vw,54px);line-height:1;margin:0;text-wrap:balance}
+h1 span{color:var(--amber)}
+.lede{max-width:64ch;margin:0;opacity:.88}
+.stats{display:flex;flex-wrap:wrap;gap:8px 22px;font-size:13px;opacity:.9}
+.stats b{font-family:var(--f-display);font-size:20px;color:var(--amber);margin-right:4px;font-variant-numeric:tabular-nums}
+nav.tabs{display:flex;gap:4px;margin-top:8px;overflow-x:auto}
+nav.tabs a{font-family:var(--f-display);font-weight:700;font-size:17px;letter-spacing:.04em;text-transform:uppercase;color:var(--brand-ink);text-decoration:none;padding:10px 16px;border-radius:10px 10px 0 0;opacity:.75;white-space:nowrap}
+nav.tabs a[aria-current="page"]{background:var(--bg);color:var(--ink);opacity:1}
+nav.tabs a:focus-visible{outline:2px solid var(--amber);outline-offset:-2px}
+main .wrap{padding-block:22px 48px}
+h2{font-family:var(--f-display);font-size:28px;margin:0 0 4px;line-height:1.1}
+.sub{color:var(--muted);margin:0 0 18px;max-width:70ch}
+
+/* filtros */
+.filters{display:flex;flex-direction:column;gap:12px;margin-bottom:18px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:6px 12px;font:inherit;font-size:13px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--brand);color:var(--brand-ink);border-color:var(--brand)}
+.chip:focus-visible,.sel:focus-visible,.search:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.sel,.search{font:inherit;font-size:14px;padding:8px 10px;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink)}
+.search{flex:1 1 220px;min-width:0}
+.count{font-size:13px;color:var(--muted)}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:14px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.card .head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.card .tag{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.card h3{font-family:var(--f-display);font-size:21px;line-height:1.1;margin:2px 0 0}
+.price{flex:none;font-size:12px;font-weight:700;padding:4px 9px;border-radius:999px;background:var(--amber-soft);color:var(--amber-ink);white-space:nowrap}
+.price.free{background:var(--c-ej);color:var(--t-ej)}
+dl{margin:0;display:grid;grid-template-columns:92px 1fr;gap:4px 10px;font-size:13.5px}
+dt{color:var(--muted);font-weight:500}
+dd{margin:0;min-width:0}
+.ben{font-size:13.5px;background:var(--c-bien);color:var(--t-bien);border-radius:8px;padding:8px 10px}
+.foot{display:flex;flex-wrap:wrap;gap:6px 12px;font-size:12px;color:var(--muted);margin-top:auto}
+.foot a{color:inherit}
+.ver{color:var(--ok);font-weight:700}
+.empty{padding:40px;text-align:center;color:var(--muted)}
+
+/* semana */
+.legend{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.lg{font-size:12px;padding:4px 10px;border-radius:999px;font-weight:700}
+.trab{background:var(--c-trab);color:var(--t-trab)} .ej{background:var(--c-ej);color:var(--t-ej)}
+.pf{background:var(--c-pf);color:var(--t-pf)} .bien{background:var(--c-bien);color:var(--t-bien)}
+.soc{background:var(--c-soc);color:var(--t-soc)} .desc{background:var(--c-desc);color:var(--t-desc)}
+.week{display:grid;grid-template-columns:repeat(7,minmax(150px,1fr));gap:10px;overflow-x:auto;padding-bottom:6px}
+.day{display:flex;flex-direction:column;gap:6px;min-width:0}
+.day h3{font-family:var(--f-display);font-size:19px;margin:0;padding:6px 2px;border-bottom:2px solid var(--amber)}
+.blk{border-radius:8px;padding:7px 9px;font-size:12.5px;line-height:1.35}
+.blk time{display:block;font-weight:700;font-variant-numeric:tabular-nums;font-size:11.5px;opacity:.85}
+.hours{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin:22px 0}
+.hour{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.hour b{display:block;font-family:var(--f-display);font-size:26px;font-variant-numeric:tabular-nums}
+.hour span{font-size:13px;color:var(--muted)}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px}
+.panel h3{font-family:var(--f-display);font-size:21px;margin:0 0 8px}
+.panel ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;font-size:14px}
+
+/* calendario */
+.phase{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px;margin-bottom:20px}
+.ph{border-left:4px solid var(--amber);background:var(--surface);border-radius:0 10px 10px 0;padding:10px 12px;font-size:13px}
+.ph b{display:block;font-family:var(--f-display);font-size:17px}
+.mweek{margin-bottom:20px}
+.mweek h3{font-family:var(--f-display);font-size:18px;margin:0 0 8px;color:var(--muted);letter-spacing:.04em;text-transform:uppercase}
+.mdays{display:grid;grid-template-columns:repeat(7,minmax(140px,1fr));gap:8px;overflow-x:auto;padding-bottom:4px}
+.md{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:9px;display:flex;flex-direction:column;gap:5px;min-width:0;font-size:12.5px}
+.md.out{visibility:hidden}
+.md.hol{border-color:var(--amber)}
+.md .dn{display:flex;justify-content:space-between;font-weight:700;font-variant-numeric:tabular-nums}
+.md .dn em{font-style:normal;font-size:10.5px;color:var(--amber-ink);background:var(--amber-soft);padding:1px 6px;border-radius:999px}
+.md .base{color:var(--muted);font-size:11.5px}
+.ev{border-radius:6px;padding:4px 6px;line-height:1.3}
+.note{font-size:13px;color:var(--muted);margin-top:8px;max-width:80ch}
+/* ---- v2: edición, itinerario y bitácora ---- */
+:root{--scrim:rgba(20,8,30,.55);--danger:#a3263f;--on-amber:#1e1029}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--danger:#f49aa9}}
+:root[data-theme="dark"]{--danger:#f49aa9}
+.btn{font:inherit;font-size:13.5px;font-weight:500;padding:8px 14px;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;line-height:1.2}
+.btn:hover{border-color:var(--muted)}
+.btn:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+.btn.primary{background:var(--brand);border-color:var(--brand);color:var(--brand-ink)}
+.btn.accent{background:var(--amber);border-color:var(--amber);color:var(--on-amber);font-weight:700}
+.btn.sm{font-size:12.5px;padding:5px 10px}
+.btn.ghost{background:transparent}
+.btn.danger{color:var(--danger);border-color:var(--danger)}
+.btn.danger.armed{background:var(--danger);color:var(--surface)}
+.btn[aria-pressed="true"]{background:var(--brand);color:var(--brand-ink);border-color:var(--brand)}
+.card .acts{display:flex;flex-wrap:wrap;gap:6px;padding-top:4px;border-top:1px solid var(--line)}
+.badge{display:inline-block;margin-left:4px;font-size:10px;font-weight:700;letter-spacing:.06em;padding:1px 7px;border-radius:999px;background:var(--c-pf);color:var(--t-pf);vertical-align:1px}
+.badge.mine{background:var(--c-soc);color:var(--t-soc)}
+.sync{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;opacity:.92}
+.sync i{width:8px;height:8px;border-radius:50%;background:var(--amber);display:inline-block;flex:none}
+.sync[data-s="ok"] i{background:#5fd38d} /* el encabezado es morado oscuro en ambos temas */
+.sync[data-s="err"] i{background:#ff8fa3}
+.daybar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:6px}
+.daybar h2{flex:1 1 100%;margin:0}
+.daybar .inp{width:auto}
+.dcols{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:16px;align-items:start}
+.stack{display:flex;flex-direction:column;gap:16px;min-width:0}
+.form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.form .full{grid-column:1/-1}
+.field{display:flex;flex-direction:column;gap:5px;min-width:0}
+.field label,.lbl{font-size:12px;font-weight:700;color:var(--muted);letter-spacing:.02em}
+.inp{font:inherit;font-size:14px;padding:8px 10px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink);width:100%;min-width:0}
+textarea.inp{min-height:62px;resize:vertical}
+.inp:focus-visible{outline:2px solid var(--amber);outline-offset:1px}
+.durs,.tools{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.err{color:var(--danger);font-size:13px;font-weight:500}
+.err:empty{display:none}
+.hint{font-size:12.5px;color:var(--muted);margin:0}
+.sum{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:12.5px;color:var(--muted);margin:2px 0 12px}
+.sum b{font-family:var(--f-display);font-size:19px;color:var(--ink);margin-right:4px;font-variant-numeric:tabular-nums}
+.itin{display:flex;flex-direction:column;gap:6px}
+.it{display:grid;grid-template-columns:88px minmax(0,1fr);gap:4px 10px;border-radius:10px;padding:10px 12px;border-left:5px solid currentColor}
+.it-time b{display:block;font-variant-numeric:tabular-nums;font-size:15px}
+.it-time span{display:block;font-size:11.5px;opacity:.85;font-variant-numeric:tabular-nums;white-space:nowrap}
+.it-body{min-width:0}
+.it-title{font-weight:700;overflow-wrap:anywhere}
+.it-meta,.it-note{font-size:12.5px;opacity:.88;overflow-wrap:anywhere}
+.it-act{grid-column:2;display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.it .btn{background:var(--surface);color:var(--ink)}
+.it .btn[aria-pressed="true"]{background:var(--brand);color:var(--brand-ink)}
+.it .btn.danger{color:var(--danger)}
+.it.hecho .it-title::after{content:" · hecho";font-weight:500}
+.it.cancelado{opacity:.55}
+.it.cancelado .it-title{text-decoration:line-through}
+.it.clash{box-shadow:inset 0 0 0 2px var(--danger)}
+.clashmsg{font-size:12px;color:var(--danger);font-weight:700}
+.gap{font-size:12px;color:var(--muted);padding:2px 0 2px 12px;margin-left:44px;border-left:2px dashed var(--line)}
+.prev{background:var(--amber-soft);color:var(--amber-ink);border-radius:10px;padding:10px 12px;font-size:13.5px;margin-bottom:12px}
+.sugg{display:flex;flex-direction:column;gap:6px;margin-top:14px}
+.sg{display:flex;gap:10px;align-items:center;justify-content:space-between;border-radius:8px;padding:7px 10px;font-size:13px}
+.sg span{min-width:0}
+.scale{display:flex;gap:6px;flex-wrap:wrap}
+.habits{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:6px}
+.habits label{display:flex;gap:8px;align-items:center;font-size:13.5px;font-weight:400;letter-spacing:0;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:7px 9px;cursor:pointer}
+.habits input{accent-color:var(--amber);width:16px;height:16px;flex:none}
+.streak{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
+.streak div{text-align:center;font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums}
+.streak span{display:block;height:36px;border-radius:6px;background:var(--line);margin-bottom:3px;position:relative;overflow:hidden}
+.streak span i{position:absolute;left:0;right:0;bottom:0;background:var(--amber)}
+.streak b{color:var(--ink)}
+.logwrap{display:flex;flex-direction:column;gap:14px}
+.loghead{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.saved{font-size:12px;color:var(--muted)}
+.plan-link{font:inherit;font-size:11.5px;align-self:flex-start;background:none;border:0;padding:2px 0;color:var(--muted);text-decoration:underline;cursor:pointer}
+.plan-link.mine{color:var(--t-pf);font-weight:700;text-decoration:none;background:var(--c-pf);padding:2px 8px;border-radius:999px}
+.plan-link:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+dialog.dlg{border:1px solid var(--line);border-radius:14px;background:var(--surface);color:var(--ink);padding:0;width:min(720px,calc(100vw - 32px));max-height:calc(100vh - 32px)}
+dialog.dlg::backdrop{background:var(--scrim)}
+.dlg-in{padding:20px;display:flex;flex-direction:column;gap:14px;overflow:auto;max-height:calc(100vh - 34px);margin:0}
+.dlg-foot{display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(16px + env(safe-area-inset-bottom,0px));background:var(--brand);color:var(--brand-ink);padding:10px 16px;border-radius:10px;font-size:13.5px;z-index:30;max-width:calc(100vw - 32px);box-shadow:0 6px 24px var(--scrim)}
+@media (max-width:860px){.dcols{grid-template-columns:1fr}}
+@media (max-width:700px){
+  .week,.mdays{grid-template-columns:1fr;overflow:visible}
+  .md.out{display:none}
+  dl{grid-template-columns:84px 1fr}
+  .form{grid-template-columns:1fr}
+  .it{grid-template-columns:72px minmax(0,1fr)}
+  .it-act{grid-column:1/-1}
+  .gap{margin-left:30px}
+}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
+</style>
+
+<header class="top">
+  <div class="wrap">
+    <div class="eyebrow">Power Fit · Bogotá · Nov–Dic 2026</div>
+    <h1>Agenda <span>Activa</span></h1>
+    <p class="lede">Catálogo de actividades organizado según tu mapa mental, tu semana tipo y el plan día a día hasta fin de año. Cada actividad sirve doble: para tu bienestar y como contenido para la comunidad.</p>
+    <div class="stats" id="stats"></div>
+    <div class="sync" id="sync" data-s="load" role="status"><i></i><span>Conectando con tu cuenta…</span></div>
+    <nav class="tabs" aria-label="Secciones">
+      <a href="#actividades" data-view="actividades">Actividades</a>
+      <a href="#dia" data-view="dia">Mi día</a>
+      <a href="#semana" data-view="semana">Mi semana</a>
+      <a href="#calendario" data-view="calendario">Nov–Dic día a día</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<section id="v-actividades" class="wrap">
+  <h2>Qué hacer, por nicho</h2>
+  <p class="sub">Precios en pesos colombianos. Los marcados como <span class="ver">verificado</span> se revisaron en noviembre de 2026 contra la fuente enlazada; el resto son valores de referencia que debes confirmar antes de ir, porque cambian por temporada.</p>
+  <div class="filters">
+    <div class="chips" id="nichos" role="group" aria-label="Nicho"></div>
+    <div class="row">
+      <select id="fsub" class="sel" aria-label="Subcategoría"></select>
+      <select id="fcost" class="sel" aria-label="Presupuesto">
+        <option value="">Cualquier presupuesto</option>
+        <option value="0">Gratis</option>
+        <option value="1">Hasta $50 mil</option>
+        <option value="2">$50–150 mil</option>
+        <option value="3">Más de $150 mil</option>
+      </select>
+      <select id="forig" class="sel" aria-label="Origen">
+        <option value="">Todas las actividades</option>
+        <option value="mine">Creadas por mí</option>
+        <option value="edit">Editadas por mí</option>
+      </select>
+      <input id="fq" class="search" type="search" placeholder="Buscar: ciclismo, museo, Sopó…" aria-label="Buscar">
+      <span class="count" id="count"></span>
+      <button class="btn accent" id="btn-new" type="button">+ Crear actividad</button>
+    </div>
+  </div>
+  <div class="grid" id="grid"></div>
+</section>
+
+<section id="v-dia" class="wrap" hidden>
+  <div class="daybar">
+    <h2 id="d-title">Mi día</h2>
+    <button class="btn sm" id="d-prev" type="button">‹ Día anterior</button>
+    <input class="inp" id="d-date" type="date" aria-label="Fecha del itinerario">
+    <button class="btn sm" id="d-next" type="button">Día siguiente ›</button>
+    <button class="btn sm" id="d-today" type="button">Hoy</button>
+    <button class="btn sm" id="d-tom" type="button">Mañana</button>
+  </div>
+  <p class="sub">Arma el itinerario con tus actividades, cambia horarios cuando surja un imprevisto y cierra el día con la bitácora. Todo se guarda solo.</p>
+  <div class="dcols">
+    <div class="stack">
+      <div class="panel">
+        <h3>Itinerario</h3>
+        <div id="d-prevnote"></div>
+        <div class="sum" id="d-sum"></div>
+        <div class="itin" id="d-itin"></div>
+        <div class="tools" style="margin-top:14px">
+          <button class="btn sm" id="d-routine" type="button">Cargar mi rutina base</button>
+          <input class="inp" id="d-copyto" type="date" aria-label="Fecha a la que copias el plan" style="width:auto">
+          <button class="btn sm" id="d-copy" type="button">Copiar plan a esa fecha</button>
+          <button class="btn sm danger" id="d-clear" type="button">Vaciar itinerario</button>
+        </div>
+        <div id="d-sugg"></div>
+      </div>
+      <div class="panel" id="planform">
+        <h3 id="pf-h">Agregar al itinerario</h3>
+        <div class="form">
+          <div class="field full"><label for="pf-q">Busca una actividad</label><input class="inp" id="pf-q" type="search" placeholder="Escribe: gimnasio, Monserrate, pádel…"></div>
+          <div class="field full"><label for="pf-pick">Actividad</label><select class="inp" id="pf-pick"></select></div>
+          <div class="field full"><label for="pf-title">Título en tu itinerario</label><input class="inp" id="pf-title" maxlength="120"></div>
+          <div class="field"><label for="pf-start">Inicio</label><input class="inp" id="pf-start" type="time" step="300"></div>
+          <div class="field"><label for="pf-end">Fin</label><input class="inp" id="pf-end" type="time" step="300"></div>
+          <div class="field full"><span class="lbl">Duración rápida</span><div class="durs" id="pf-durs"></div></div>
+          <div class="field"><label for="pf-cat">Tipo de bloque</label><select class="inp" id="pf-cat"></select></div>
+          <div class="field"><label for="pf-place">Lugar</label><input class="inp" id="pf-place" maxlength="160"></div>
+          <div class="field full"><label for="pf-note">Notas: qué llevar, con quién, costo</label><textarea class="inp" id="pf-note" maxlength="600"></textarea></div>
+          <div class="field" id="pf-datewrap" hidden><label for="pf-date">Mover a la fecha</label><input class="inp" id="pf-date" type="date"></div>
+          <div class="err full" id="pf-err"></div>
+          <div class="tools full"><button class="btn primary" id="pf-save" type="button">Agregar al itinerario</button><button class="btn ghost" id="pf-cancel" type="button" hidden>Cancelar edición</button></div>
+        </div>
+      </div>
+    </div>
+    <div class="panel logwrap" id="logpanel">
+      <div class="loghead"><h3 style="margin:0">Bitácora del día</h3><span class="saved" id="log-saved"></span></div>
+      <p class="hint" id="log-plan"></p>
+      <div class="logwrap" id="log-fields"></div>
+      <div class="field"><span class="lbl">Hábitos en los últimos 7 días</span><div class="streak" id="log-streak"></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="v-semana" class="wrap" hidden>
+  <h2>Mi semana tipo</h2>
+  <p class="sub">Trabajo de 8 a 6, gimnasio a las 6 a. m. tres veces, fútbol el jueves, una noche lúdica, 8 horas para Power Fit y el domingo libre de trabajo. Publicas 4 veces por semana (lunes, miércoles, viernes y domingo) dejando todo programado desde los bloques de Power Fit.</p>
+  <div class="legend">
+    <span class="lg trab">Trabajo</span><span class="lg ej">Ejercicio</span><span class="lg pf">Power Fit</span>
+    <span class="lg bien">Bienestar y hábitos</span><span class="lg soc">Social y recreación</span><span class="lg desc">Descanso y familia</span>
+  </div>
+  <div class="week" id="week"></div>
+  <div class="hours" id="hours"></div>
+  <div class="cols">
+    <div class="panel">
+      <h3>Bloques de Power Fit (8 h)</h3>
+      <ul>
+        <li><b>Lunes 1 h 15</b> · Curar la agenda de la semana (IDRD, Idartes, clubes, eventos) y escribir guiones. Aquí entra Claude como asistente de investigación.</li>
+        <li><b>Martes 1 h 15</b> · Editar lote de piezas con IA (clips, subtítulos, carruseles).</li>
+        <li><b>Miércoles 1 h 15</b> · Terminar edición y programar las publicaciones de la semana.</li>
+        <li><b>Jueves 45 min</b> · Comunidad de WhatsApp, responder mensajes y anotar métricas.</li>
+        <li><b>Sábado 3 h 30</b> · Grabar y documentar la actividad del fin de semana, revisión semanal de KPI y registro de decisiones.</li>
+      </ul>
+    </div>
+    <div class="panel">
+      <h3>Hábitos ancla</h3>
+      <ul>
+        <li><b>Sueño:</b> a la cama 22:15 entre semana, para despertar a las 5:30 con 7 horas.</li>
+        <li><b>Pantallas:</b> apagadas a las 21:30; esa media hora es de lectura.</li>
+        <li><b>Plan B ante un antojo o un vicio:</b> caminar 10 minutos, tomar agua, escribirle a alguien o respirar lento 2 minutos. Anota qué lo disparó.</li>
+        <li><b>Comida:</b> el sábado al mediodía haces mercado (Paloquemao o mercado campesino) y dejas listos los almuerzos de la semana.</li>
+        <li><b>Registro diario de 3 hábitos:</b> me moví, leí, dormí 7 h. Lo revisas el domingo en el check-in personal.</li>
+        <li>Si la ansiedad o algún hábito se siente difícil de manejar solo, pedir cita de psicología en tu EPS es un paso tan válido como ir al gimnasio.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="v-calendario" class="wrap" hidden>
+  <h2>Noviembre y diciembre, día a día</h2>
+  <p class="sub">Cada día muestra la rutina base y, encima, lo especial: hitos del piloto de 30 días, eventos de la ciudad y el plan de aventura del fin de semana sacado del catálogo.</p>
+  <div class="phase" id="phase"></div>
+  <div id="month"></div>
+  <p class="note">Fechas por confirmar: el encendido oficial del alumbrado, la Ciclovía Nocturna navideña (suele ser un jueves de diciembre; si cae en jueves, cambia el fútbol por la rodada) y los partidos de cuadrangulares de la Liga BetPlay, que dependen de si Millonarios o Santa Fe clasifican.</p>
+</section>
+</main>
+
+<dialog class="dlg" id="dlg" aria-labelledby="dlg-h">
+  <form class="dlg-in" id="af" method="dialog">
+    <h2 id="dlg-h" style="margin:0">Crear actividad</h2>
+    <p class="hint" id="af-hint"></p>
+    <div class="form">
+      <div class="field"><label for="af-n">Nicho</label><select class="inp" id="af-n"></select></div>
+      <div class="field"><label for="af-sub">Subcategoría</label><select class="inp" id="af-sub"></select></div>
+      <div class="field full" id="af-subnew-w" hidden><label for="af-subnew">Nombre de la nueva subcategoría</label><input class="inp" id="af-subnew" maxlength="40"></div>
+      <div class="field full" id="af-base-w"><label for="af-base">Partir de un ejemplo (opcional)</label><select class="inp" id="af-base"></select></div>
+      <div class="field full"><label for="af-name">Nombre de la actividad *</label><input class="inp" id="af-name" maxlength="120"></div>
+      <div class="field full"><label for="af-where">Dónde</label><input class="inp" id="af-where" maxlength="200"></div>
+      <div class="field full"><label for="af-how">Cómo llegar</label><input class="inp" id="af-how" maxlength="240"></div>
+      <div class="field"><label for="af-cost">Cuánto cuesta</label><input class="inp" id="af-cost" maxlength="160"></div>
+      <div class="field"><label for="af-tier">Rango de presupuesto</label><select class="inp" id="af-tier"></select></div>
+      <div class="field full"><label for="af-who">Para quién</label><input class="inp" id="af-who" maxlength="200"></div>
+      <div class="field full"><label for="af-expect">Qué esperar</label><textarea class="inp" id="af-expect" maxlength="400"></textarea></div>
+      <div class="field full"><label for="af-ben">Beneficio en salud y bienestar</label><textarea class="inp" id="af-ben" maxlength="400"></textarea></div>
+      <div class="field"><label for="af-serie">Serie de contenido</label><select class="inp" id="af-serie"></select></div>
+      <div class="field" id="af-src-w"><label for="af-src">Fuente (enlace, opcional)</label><input class="inp" id="af-src" type="url" maxlength="400" placeholder="https://"></div>
+      <div class="err full" id="af-err"></div>
+    </div>
+    <div class="dlg-foot">
+      <button class="btn ghost" type="button" id="af-cancel">Cancelar</button>
+      <button class="btn" type="button" id="af-save-add">Guardar y agregar a mi día</button>
+      <button class="btn primary" type="button" id="af-save">Guardar actividad</button>
+    </div>
+  </form>
+</dialog>
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+<script>
+const SRC={
+ jbb:["bogota.gov.co","https://bogota.gov.co/mi-ciudad/ambiente/estas-son-las-nuevas-tarifas-del-jardin-botanico-de-bogota-2026"],
+ mus:["RCN Radio","https://newsroom.rcnradio.com/actualidad/entrada-gratis-a-museos-de-bogota-en-2026-cuales-son"],
+ pnn:["Vanguardia","https://www.vanguardia.com/colombia/2026/01/01/nuevas-tarifas-esto-vale-ingresar-a-parques-naturales-de-colombia-en-2026/"],
+ chi:["Semana","https://www.semana.com/turismo/articulo/como-llegar-al-parque-natural-chicaque-cuanto-cuesta-ir-y-que-planes-hacer/202431/"],
+ gua:["El País (2024)","https://www.elpais.com.co/turismo/como-llegar-a-la-laguna-de-guatavita-y-cuanto-cuesta-la-entrada-2550.html"],
+ zip:["El País","https://www.elpais.com.co/turismo/cuanto-cuesta-la-entrada-a-la-catedral-de-sal-de-zipaquira-1325.html"],
+ jd:["Semana","https://www.semana.com/turismo/articulo/cuanto-cuesta-la-entrada-en-2026-y-que-se-puede-hacer-en-el-parque-jaime-duque/202603/"],
+ mal:["Visit Bogotá","https://files.visitbogota.co/drpl/en/node/5077"],
+ mon:["RCN Radio","https://newsroom.rcnradio.com/colombia/cuanto-cuesta-subir-a-monserrate-en-teleferico-el-jueves-y-viernes-santo-de-2026"],
+ qlv:["bogota.gov.co","https://bogota.gov.co/mi-ciudad/habitat/nuevos-horarios-de-ingreso-los-senderos-de-la-quebrada-la-vieja"],
+ pad:["La República (2024)","https://www.larepublica.co/ocio/los-costos-y-lugares-para-jugar-padel-3793864"],
+ padg:["bogota.gov.co","https://bogota.gov.co/mi-ciudad/cultura-recreacion-y-deporte/llego-la-hora-de-entrenar-padel-gratis-en-bogota-el-salitre"],
+ pb:["El Tiempo","https://www.eltiempo.com/bogota/lugares-en-bogota-para-practicar-paintball-621203"],
+ ext:["Colombia.com","https://www.colombia.com/turismo/noticias/3-destinos-para-deportes-extremos-cerca-de-bogota-que-hacer-597872"],
+ res:["Civitatis","https://www.civitatis.com/es/bogota/excursion-bioparque-reserva/"],
+ fest:["Colombia.com","https://www.colombia.com/turismo/noticias/programacion-de-los-al-parque-en-bogota-2026-576706"],
+ nav:["Bogotá Turismo","https://bogotaturismo.com/navidad-en-bogota-2026/"],
+ conc:["bogota.gov.co","https://bogota.gov.co/internacional/conoce-la-agenda-de-conciertos-en-bogota-de-abril-diciembre-de-2026"],
+ liga:["Infobae","https://www.infobae.com/colombia/deportes/2026/11/04/cucuta-deportivo-vs-santa-fe-hora-y-donde-ver-el-partido-clave-en-la-tabla-de-la-liga-betplay/"]
+};
+const NICHOS=[["D","Deportes"],["A","Actividad física"],["R","Recreación"],["T","Turismo"],["C","Cultura"],["P","Trabajo, estudio y oficios"]];
+const TIER=["Gratis","Hasta $50 mil","$50–150 mil","Más de $150 mil"];
+// [nicho, sub, nombre, lugar, como llegar, costo, tier, quien, que esperar, beneficio, serie, fuente]
+const A=[
+// DEPORTES · Competitivo
+["D","Competitivo","Liga amateur de fútbol 5 o microfútbol","Canchas sintéticas de Salitre, Kennedy, Suba y Usaquén","La más cercana a tu casa; casi todas a pocas cuadras de una estación de TransMilenio","Inscripción por equipo; ≈ $15–25 mil por persona por partido","1","Adultos con equipo de 7–10 jugadores","Partidos semanales con árbitro y tabla de posiciones","Resistencia aeróbica, coordinación y vínculo social con un grupo fijo","Conociendo a la comunidad",""],
+["D","Competitivo","Carrera atlética 5K–10K","Circuitos urbanos de Bogotá (Cra 7, Av. Américas, Simón Bolívar)","Salidas cerca de estaciones de TransMilenio; llegar 60 min antes","Inscripción ≈ $90–180 mil (incluye camiseta y medalla)","3","Desde principiantes con 6–8 semanas de preparación","Ambiente masivo, hidratación en ruta, chip de tiempo","Una meta concreta mantiene la constancia en el entrenamiento","No sé por dónde empezar",""],
+["D","Competitivo","Carrera de trail en los cerros","Cerros Orientales y senderos de la Sabana","Transporte del organizador o carro compartido","Inscripción ≈ $120–200 mil","3","Corredores con base de 10K y calzado de trail","Ascensos fuertes, barro y paisajes de páramo bajo","Fuerza de piernas, equilibrio y trabajo de altura","Descubre un deporte",""],
+["D","Competitivo","Torneo amateur de pádel","Clubes del norte (Usaquén, Colina, Calle 80)","TransMilenio o carro; la mayoría con parqueadero","Inscripción ≈ $80–150 mil por pareja","2","Jugadores con algunas semanas de práctica","Categorías por nivel, partidos cortos y mucho ambiente","Reflejos, agilidad lateral y socialización","Descubre un deporte",""],
+["D","Competitivo","Escalafón de tenis amateur","Clubes y canchas públicas de Bogotá","Según la sede del torneo","Inscripción ≈ $60–120 mil","2","Jugadores de nivel intermedio","Partidos programados por fin de semana","Potencia del tren superior, desplazamientos y concentración","Descubre un deporte",""],
+["D","Competitivo","Duatlón o triatlón recreativo","Embalses de Tominé (Guatavita) o del Neusa","Carro o transporte del evento por la salida norte","Inscripción ≈ $150–300 mil","3","Personas que ya corren y montan bicicleta; natación opcional en el duatlón","Transiciones cronometradas y paisaje de embalse","Combina tres capacidades aeróbicas y reduce lesiones por sobreuso","Descubre un deporte",""],
+["D","Competitivo","Gran fondo de ciclismo","Rutas de Cundinamarca y Boyacá","Salida en grupo desde Bogotá o transporte del evento","Inscripción ≈ $200–400 mil","3","Ciclistas que ya hacen salidas de 60 km o más","Pelotón, puntos de abastecimiento y mucho ascenso","Capacidad aeróbica y disciplina de entrenamiento","Bogotá activa",""],
+["D","Competitivo","Liga recreativa de voleibol mixto","Coliseos y parques con cancha (Simón Bolívar, El Salitre)","TransMilenio estación Simón Bolívar o rutas por la Calle 63","≈ $10–20 mil por persona por partido","1","Adultos de cualquier nivel; equipos mixtos","Ambiente relajado, ideal para conocer gente","Saltos, coordinación y trabajo en equipo","Conociendo a la comunidad",""],
+["D","Competitivo","Escuelas y torneos del IDRD","Parques distritales de tu localidad","Inscripción en portalciudadano.idrd.gov.co","Gratis","0","Mayores de edad con EPS","Clases dirigidas y torneos barriales","Práctica regular sin costo y con entrenador","Power Fit por localidad",""],
+// DEPORTES · Convencionales
+["D","Convencionales","Alquiler de cancha sintética","Canchas en todas las localidades","La más cercana a tu casa","Cancha ≈ $100–180 mil la hora, entre 10 son $10–18 mil","1","Grupos de amigos de 10 a 14","El partido del jueves o un picado extra el sábado","Intervalos de alta intensidad: corazón y piernas","Conociendo a la comunidad",""],
+["D","Convencionales","Natación en el conjunto","Piscina de tu conjunto","En casa","Incluido en la administración","0","Todos; lo ideal es tener técnica básica","Sesiones de 30–40 min a tu ritmo","Ejercicio de bajo impacto para recuperar después del fútbol y del gimnasio","Hábitos Power Fit",""],
+["D","Convencionales","Pádel recreativo","Clubes del norte y occidente","TransMilenio o carro","Cancha ≈ $80–175 mil la hora en fin de semana (2024), dividida entre 4; pala en alquiler $10–20 mil","2","Todos; se aprende rápido","Partidos de 60–90 min en dobles","Cardio intermitente, reflejos y diversión social","Descubre un deporte","pad"],
+["D","Convencionales","Clases gratuitas de pádel IDRD","Parque Recreodeportivo El Salitre (Barrios Unidos)","Av. 68 con Calle 63; TransMilenio NQS o Av. 68","Gratis","0","Mayores de edad con pala propia","Martes y jueves de 12 a 2 p. m. Choca con tu trabajo; sirve para vacaciones","Iniciación con profesor","Descubre un deporte","padg"],
+["D","Convencionales","Tenis en canchas públicas","Parque El Salitre y Parque Simón Bolívar","TransMilenio estación Simón Bolívar o Av. 68","≈ $20–40 mil la hora","1","Todos los niveles","Reserva por franjas; puedes tomar clases","Coordinación ojo-mano y resistencia","Descubre un deporte",""],
+["D","Convencionales","Baloncesto en parque","Parque Nacional, El Virrey, parques de barrio","A pie o en bici desde tu barrio","Gratis","0","Todos","Partidos 3x3 con quien esté en la cancha","Saltos, sprints y socialización espontánea","Bogotá activa",""],
+["D","Convencionales","Ciclovía dominical","Más de 100 km de vías cerradas (Cra 7, Calle 26, Av. Boyacá, entre otras)","Sales desde tu casa en bici, patines o a pie","Gratis","0","Todos","Domingos y festivos, de 7 a. m. a 2 p. m.","Resistencia aeróbica en un ambiente seguro y familiar","Bogotá activa",""],
+["D","Convencionales","Running en parques","Parque Simón Bolívar, El Virrey, Parque Nacional","TransMilenio o a pie","Gratis","0","Todos; empieza alternando trote y caminata","Circuitos medidos y grupos que entrenan juntos","Salud cardiovascular, manejo del estrés y mejor sueño","No sé por dónde empezar",""],
+["D","Convencionales","Squash o ráquetbol","Clubes y cajas de compensación (Compensar, Colsubsidio)","Según la sede","≈ $30–60 mil la hora","1","Todos; muy intenso para principiantes","Partidos cortos, cancha cerrada","Mucho gasto calórico en poco tiempo y agilidad","Descubre un deporte",""],
+["D","Convencionales","Gimnasio con entrenador una vez al mes","Gimnasio del conjunto o un entrenador a domicilio","En casa","≈ $60–100 mil la sesión","2","Quien entrena solo y quiere corregir técnica","Revisión de tu rutina y de tu progreso","Evita lesiones y hace que el progreso sea medible","Hábitos Power Fit",""],
+// DEPORTES · No convencionales
+["D","No convencionales","Escalada en roca en Suesca","Rocas de Suesca, Cundinamarca","Bus desde el Portal Norte (≈ 1 h 30) o carro","Día guiado ≈ $150–250 mil con equipo","3","Mayores de 12 años; se aprende con guía","Paredes de arenisca para todos los niveles, cuevas y camping","Fuerza de agarre, concentración y manejo del miedo","Descubre un deporte","ext"],
+["D","No convencionales","Boulder o muro de escalada","Gimnasios de escalada en Chapinero y Usaquén","TransMilenio o SITP","Pase del día ≈ $35–50 mil; zapatillas en alquiler","1","Todos; no se necesita experiencia","Bloques bajos con colchonetas y rutas por color","Fuerza funcional y resolución de problemas","Descubre un deporte",""],
+["D","No convencionales","Parapente en Sopó","Sopó, Cundinamarca","Carro o bus por la salida norte (≈ 1 h)","Vuelo biplaza ≈ $200–300 mil","3","Mayores de edad sin restricción médica","Vuelo de 15–20 min con piloto y vista de la Sabana","Adrenalina controlada y una experiencia memorable","Bogotá activa","ext"],
+["D","No convencionales","Rafting en Tobia","Río Negro, Tobia (Nimaima)","Bus por la vía a Villeta (≈ 2 h 30)","≈ $70–130 mil","2","Mayores de 12 años que sepan flotar","Rápidos de nivel II–III con guía y casco","Trabajo en equipo y fuerza de brazos y tronco","Descubre un deporte","ext"],
+["D","No convencionales","Torrentismo","Tobia o La Vega","Bus por la vía a Villeta","≈ $60–110 mil","2","Mayores de 12 años","Descenso con cuerda por una cascada","Confianza, fuerza y manejo del miedo","Descubre un deporte","ext"],
+["D","No convencionales","Paintball","Hard Paintball (Autopista Norte con Calle 222) o Dual Play (Cra 30 con Primero de Mayo)","TransMilenio Autopista Norte o NQS sur","≈ $50–90 mil con equipo y bolas","2","Mayores de 14 años, en grupo","Escenarios tácticos por equipos","Sprints, estrategia y desahogo del estrés","Conociendo a la comunidad","pb"],
+["D","No convencionales","Tejo","Canchas de tejo tradicionales (por ejemplo, la zona de la Calle 76)","TransMilenio o taxi","Consumo mínimo ≈ $10–30 mil","1","Mayores de edad","El deporte nacional: mechas, arcilla y explosiones","Coordinación y un plan social muy colombiano","Descubre un deporte",""],
+["D","No convencionales","Kayak o paddle board","Embalse de Tominé (Guatavita)","Bus desde el Portal Norte a Guatavita (≈ 1 h 30)","≈ $40–80 mil por hora","2","Todos, con chaleco","Agua tranquila con vista de las montañas","Equilibrio, espalda y tronco; muy relajante","Bogotá activa",""],
+["D","No convencionales","Patinaje recreativo","Ciclovía y pistas de parques distritales","Desde tu casa","Gratis (patines propios)","0","Todos; con protecciones","Rutas largas el domingo","Equilibrio y cardio de bajo impacto","Bogotá activa",""],
+// ACTIVIDAD FÍSICA · Rutinaria
+["A","Rutinaria","Gimnasio del conjunto (3 veces)","Tu conjunto","En casa","Incluido","0","Tú: lunes, miércoles y viernes a las 6 a. m.","Rutina de fuerza A/B más una sesión corta los viernes","Fuerza, postura y energía para la jornada","Hábitos Power Fit",""],
+["A","Rutinaria","Pausa activa de las 11:00","Tu puesto de trabajo","Ahí mismo","Gratis","0","Tú, en el descanso de 30 min","10 min de movilidad, 10 de caminata y agua","Menos rigidez, más foco y más energía en la tarde","Hábitos Power Fit",""],
+["A","Rutinaria","Caminata después del almuerzo","Alrededor de tu trabajo","A pie","Gratis","0","Tú, a las 2 p. m.","10–15 min a paso cómodo","Mejor digestión y descanso mental","Hábitos Power Fit",""],
+["A","Rutinaria","Recreovía del IDRD","Puntos en parques de cada localidad","Consulta el punto más cercano","Gratis","0","Todos","Clases grupales de aeróbicos, baile y funcional","Ejercicio guiado y ambiente de comunidad","Power Fit por localidad",""],
+["A","Rutinaria","Bici como transporte","Ciclorrutas de Bogotá","Desde tu casa","Gratis","0","Quien tenga una ruta segura al trabajo","Sumas ejercicio sin sacar tiempo extra","Actividad diaria y menos estrés del tráfico","Bogotá activa",""],
+["A","Rutinaria","Clubes de running gratuitos","Parques El Virrey y Simón Bolívar","TransMilenio o a pie","Gratis","0","Todos los niveles","Salidas grupales entre semana y fines de semana","Constancia gracias al grupo","Conociendo a la comunidad",""],
+["A","Rutinaria","Movilidad y estiramiento en casa","Tu casa","En casa","Gratis","0","Todos","15 min con una rutina en video","Previene lesiones del gimnasio y del fútbol","Hábitos Power Fit",""],
+["A","Rutinaria","Rodada o trote del sábado temprano","Ciclorrutas o el parque más cercano","Desde tu casa","Gratis","0","Tú, de 7:30 a 8:30","Hora suave antes del bloque de Power Fit","Activa el cuerpo y despeja la mente","Bogotá activa",""],
+// ACTIVIDAD FÍSICA · Salud
+["A","Salud","Sendero Quebrada La Vieja","Cerros Orientales, Chapinero","Inscripción previa en la app Visitas EAAB; llega el QR al correo","Gratis","0","Personas con condición física básica","Martes a viernes 5:45–11 a. m.; fines de semana hasta mediodía (horario 2021, confirmar)","Caminata en bosque andino; cardio y aire limpio","Bogotá activa","qlv"],
+["A","Salud","Sendero peatonal a Monserrate","Cerro de Monserrate","TransMilenio Las Aguas y caminata hasta la base","Gratis a pie","0","Personas sin problemas cardíacos o respiratorios","Unos 1.500 escalones y 500 m de desnivel","Gran entrenamiento de piernas y pulmones","No sé por dónde empezar","mon"],
+["A","Salud","Sendero Las Delicias","Cerros Orientales, Chapinero","Inscripción previa con la EAAB","Gratis","0","Todos","Recorrido corto con quebrada y cascada","Caminata suave y contacto con la naturaleza","Bogotá activa",""],
+["A","Salud","Humedal Santa María del Lago","Engativá","TransMilenio Av. Boyacá y caminata corta","Gratis","0","Todos","Caminata plana y avistamiento de aves","Reduce el estrés y es ideal para un día de recuperación","Power Fit por localidad",""],
+["A","Salud","Chequeo médico y valoración física","Tu EPS o un centro de medicina deportiva","Según la sede","Cuota moderadora de la EPS o ≈ $80–150 mil particular","1","Toda persona que empieza a entrenar en serio","Revisión de corazón, presión y composición corporal","Entrenas con datos reales y con seguridad","No sé por dónde empezar",""],
+["A","Salud","Curso de técnica de natación","Cajas de compensación (Compensar, Colsubsidio)","Según la sede","≈ $80–200 mil al mes","2","Todos los niveles","Clases en grupo con profesor","Mejora la eficiencia en la piscina del conjunto","Descubre un deporte",""],
+["A","Salud","Yoga o tai chi en parque","Parques El Virrey, Nacional y Simón Bolívar","A pie o en TransMilenio","Gratis o donación","0","Todos","Sesiones al aire libre los fines de semana","Flexibilidad, respiración y calma","Hábitos Power Fit",""],
+["A","Salud","Respiración y mindfulness diario","Tu casa","En casa","Gratis","0","Todos","5 min al despertar con una app o un audio guiado","Ayuda a regular la ansiedad y a empezar el día con calma","Hábitos Power Fit",""],
+// ACTIVIDAD FÍSICA · Bienestar
+["A","Bienestar","Lectura en la Biblioteca Virgilio Barco","Av. Cra 60 #57-60, junto al Parque Simón Bolívar","TransMilenio estación Simón Bolívar","Gratis","0","Todos","Edificio de Rogelio Salmona rodeado de agua y parque","Desconexión digital y descanso mental","¿Qué hacer en Bogotá?",""],
+["A","Bienestar","Termales de Santa Mónica (Choachí)","Choachí, Cundinamarca","Bus desde la terminal o carro por la vía a Choachí (≈ 1 h)","≈ $30–60 mil","1","Todos; consulta si tienes problemas de presión","Piscinas de agua caliente en el campo","Relajación muscular después de semanas de entrenamiento","Bogotá activa",""],
+["A","Bienestar","Termales de Tabio","Tabio, Cundinamarca","Bus desde el Portal Norte (≈ 1 h)","≈ $25–50 mil","1","Todos","Piscinas termales y almuerzo de pueblo","Recuperación y un plan tranquilo en familia","Bogotá activa",""],
+["A","Bienestar","Masaje deportivo o fisioterapia","Centros de fisioterapia de tu zona","Según la sede","≈ $80–150 mil","2","Quien entrena 3 o más veces por semana","Sesión de 50–60 min","Recupera el músculo y previene lesiones","Hábitos Power Fit",""],
+["A","Bienestar","Caminata de baño de bosque","Parque Ecológico Matarredonda (vía a Choachí)","Carro o bus por la vía a Choachí","≈ $10–20 mil","1","Todos","Sendero de páramo en silencio y a ritmo lento","Calma y atención plena en la naturaleza","Bogotá activa",""],
+["A","Bienestar","Retiro de bienestar de fin de semana","La Calera, Villa de Leyva o Sopó","Transporte propio o del organizador","≈ $400–900 mil","3","Adultos","Yoga, comida saludable, caminatas y desconexión","Reinicio profundo de hábitos","Hábitos Power Fit",""],
+["A","Bienestar","Desconexión digital nocturna","Tu casa","En casa","Gratis","0","Todos","Pantallas apagadas a las 21:30 y 30 min de lectura","Mejor sueño y menos ansiedad nocturna","Hábitos Power Fit",""],
+["A","Bienestar","Check-in personal del domingo","Tu casa","En casa","Gratis","0","Tú","10 min: qué funcionó, qué no y la meta de la semana","Ver tu progreso refuerza el cambio de hábitos","Hábitos Power Fit",""],
+// RECREACIÓN · Tiempo libre
+["R","Tiempo libre","Cinemateca de Bogotá","Cra 3 #19-10, Centro","TransMilenio estación Las Aguas","≈ $8–12 mil","1","Todos","Cine independiente, ciclos y foros","Cultura y descanso mental","¿Qué hacer en Bogotá?",""],
+["R","Tiempo libre","Cine de estreno","Multiplex de centros comerciales","El más cercano","≈ $12–25 mil; más barato entre semana","1","Todos","Estrenos y salas especiales","Plan social sencillo para la noche lúdica","¿Qué hacer en Bogotá?",""],
+["R","Tiempo libre","Café de juegos de mesa","Chapinero y Teusaquillo","TransMilenio por la Caracas","Consumo ≈ $20–40 mil","1","Grupos de 2 a 8","Ludoteca con cientos de juegos y personal que explica las reglas","Risa, estrategia y tiempo de calidad con amigos","Conociendo a la comunidad",""],
+["R","Tiempo libre","Bolos","Boleras de centros comerciales","Según la sede","≈ $15–30 mil por persona la línea","1","Todos","Pistas, música y comida","Plan activo y social para un viernes","¿Qué hacer en Bogotá?",""],
+["R","Tiempo libre","Clases de salsa","Academias de baile en Chapinero y el norte","TransMilenio o SITP","Clase de prueba gratis o ≈ $20–40 mil","1","Todos; no hace falta pareja","Clases en grupo por nivel","Cardio divertido, coordinación y confianza","Descubre un deporte",""],
+["R","Tiempo libre","Planetario de Bogotá","Cra 6 #26-07, Parque de la Independencia","TransMilenio estación Las Nieves o Museo Nacional","≈ $10–20 mil","1","Todos","Domo con funciones y exposiciones de astronomía","Curiosidad y aprendizaje","¿Qué hacer en Bogotá?",""],
+["R","Tiempo libre","Picnic en el Simón Bolívar","Parque Metropolitano Simón Bolívar","TransMilenio estación Simón Bolívar","Gratis (lleva tu comida)","0","Todos","Lago, prados enormes y gente haciendo deporte","Descanso al aire libre","Bogotá activa",""],
+["R","Tiempo libre","Fotografía urbana en La Candelaria","La Candelaria","TransMilenio Las Aguas o Museo del Oro","Gratis","0","Todos","Calles coloniales, murales y miradores","Atención plena y material para tus redes","¿Qué hacer en Bogotá?",""],
+["R","Tiempo libre","Karaoke con amigos","Zonas T, 93 y Chapinero","Taxi o SITP de noche","Consumo ≈ $30–60 mil","1","Mayores de edad","Salas privadas por horas","Desahogo y diversión en grupo","Conociendo a la comunidad",""],
+// RECREACIÓN · Experiencias
+["R","Experiencias","Cuarto de escape","Salas temáticas en Chapinero, Usaquén y el norte","TransMilenio o SITP","≈ $50–80 mil por persona","2","Grupos de 2 a 6","60 min para resolver acertijos y salir","Trabajo en equipo y agilidad mental","Conociendo a la comunidad",""],
+["R","Experiencias","Parque Jaime Duque","Tocancipá, salida norte","Bus desde el Portal Norte o carro (el brazalete incluye parqueadero)","$75.000 la entrada general","2","Todos","Atracciones, Bioparque Wakatá y Ecoparque","Plan familiar de un día completo","¿Qué hacer en Bogotá?","jd"],
+["R","Experiencias","Maloka","Cra 68D #24A-51","TransMilenio Calle 26","Combo familiar para 4 ≈ $138 mil (≈ $35 mil por persona)","1","Todos","Museo interactivo de ciencia y Domo, 2–3 h de visita","Curiosidad y aprendizaje en un plan distinto","¿Qué hacer en Bogotá?","mal"],
+["R","Experiencias","Salitre Mágico","Calle 63 con Av. 68","TransMilenio Av. 68 o NQS","Pasaporte ≈ $80–120 mil","2","Todos","Atracciones mecánicas; en octubre hay Festival del Terror","Adrenalina y risa en grupo","¿Qué hacer en Bogotá?",""],
+["R","Experiencias","Mundo Aventura","Cra 71D #1-14 Sur, Kennedy","TransMilenio Américas","Pasaporte ≈ $60–100 mil","2","Todos","Atracciones y granja","Plan de día completo en el sur","Power Fit por localidad",""],
+["R","Experiencias","Bioparque La Reserva","Cota, Cundinamarca","Tour desde El Campín o carro (≈ 40 min)","Tour con transporte, guía, entrada y almuerzo desde US$ 93; la entrada sola es más barata","3","Todos","Fauna rescatada, flora y recorrido de conservación (7 h el tour)","Educación ambiental y contacto con animales","Bogotá activa","res"],
+["R","Experiencias","Piscilago","Vía Melgar–Girardot (≈ 3 h)","Bus a Melgar o carro","≈ $100–150 mil","2","Todos","Parque acuático y zoológico en clima cálido","Plan de calor para un puente","¿Qué hacer en Bogotá?",""],
+["R","Experiencias","Teleférico a Monserrate de noche","Cerro de Monserrate","TransMilenio Las Aguas y caminata","Domingo ≈ $21.000 por trayecto (tarifa general 2026); entre semana confirmar","1","Todos","Vista de la ciudad iluminada, sobre todo en diciembre","Plan de pareja o amigos con una vista única","¿Qué hacer en Bogotá?","mon"],
+["R","Experiencias","Parque de trampolines","Centros de entretenimiento del norte y occidente","Según la sede","≈ $25–45 mil la hora","1","Todos","Camas elásticas, foso de espuma y dodgeball","Cardio intenso y diversión","Descubre un deporte",""],
+// RECREACIÓN · Integraciones
+["R","Integraciones","Noche de juegos en casa","Tu casa o la de un amigo","En casa","Gratis o lo que lleve cada uno","0","Grupo de amigos","Juegos de mesa, cartas o videojuegos cada viernes","Conexión social, clave contra la ansiedad","Conociendo a la comunidad",""],
+["R","Integraciones","Partido de microfútbol del jueves","Tu cancha habitual","La de siempre","Tu parte de la cancha","1","Tu grupo de fútbol","Partido semanal a las 9 p. m.","Ejercicio intenso con amigos","Conociendo a la comunidad",""],
+["R","Integraciones","Asado en el Parque La Florida","Parque La Florida, Engativá (occidente)","Carro o SITP por la Calle 80","Gratis la entrada; comida aparte","0","Grupos y familias","Zonas de picnic, lago y senderos","Integración al aire libre","Power Fit por localidad",""],
+["R","Integraciones","Rodada nocturna de colectivos","Salidas desde parques del centro y el norte","En tu bici","Gratis","0","Ciclistas con luces y casco","Recorridos en grupo por la ciudad de noche","Ejercicio social y conocer otros ciclistas","Conociendo a la comunidad",""],
+["R","Integraciones","Voluntariado de siembra de árboles","Jornadas del Jardín Botánico y de la Secretaría de Ambiente","Según la jornada","Gratis","0","Todos","Mañana de siembra con un grupo","Propósito, naturaleza y comunidad","Conociendo a la comunidad",""],
+["R","Integraciones","Camping en Suesca o La Calera","Zonas de camping de Suesca o La Calera","Bus desde el Portal Norte o carro","≈ $20–50 mil por persona la noche","1","Grupos","Fogata, estrellas y caminata al amanecer","Desconexión total","Bogotá activa",""],
+["R","Integraciones","Ruta activa Power Fit","Un parque o sendero elegido por la comunidad","Punto de encuentro en una estación de TransMilenio","Gratis","0","Tu comunidad de WhatsApp","Primer encuentro presencial: caminata o rodada","Valida la comunidad y genera contenido real","Conociendo a la comunidad",""],
+["R","Integraciones","Taller de cocina saludable en grupo","Escuelas de cocina o en casa","Según la sede","≈ $60–120 mil","2","Grupos de amigos o pareja","Aprendes 2 o 3 recetas para la semana","Hábitos de alimentación más fáciles de sostener","Hábitos Power Fit",""],
+// TURISMO · Local
+["T","Local","Monserrate (sendero, funicular o teleférico)","Cra 2 Este #21-48","TransMilenio Las Aguas y caminata de 15 min","Sendero gratis; funicular o teleférico ≈ $21 mil el domingo","1","Todos","Santuario, mercado de comidas y vista de 360°","Ejercicio, espiritualidad y paisaje en un solo plan","¿Qué hacer en Bogotá?","mon"],
+["T","Local","Free walking tour por La Candelaria","Plaza del Chorro de Quevedo","TransMilenio Las Aguas","Propina voluntaria","0","Todos","Historia, café y arte callejero en 2–3 h","Caminata cultural","¿Qué hacer en Bogotá?",""],
+["T","Local","Graffiti tour","La Candelaria y Calle 26","TransMilenio Museo del Oro","Propina voluntaria","0","Todos","Murales de artistas locales explicados por sus guías","Cultura urbana y caminata","¿Qué hacer en Bogotá?",""],
+["T","Local","Mercado de pulgas de Usaquén","Plaza de Usaquén (Cra 6 con Calle 119)","SITP por la Cra 7 o TransMilenio Calle 116 y caminata","Gratis la entrada","0","Todos","Domingos: artesanías, música y comida","Plan tranquilo de domingo en familia","Power Fit por localidad",""],
+["T","Local","Mirador de Patios (vía La Calera)","Km 5 de la vía Bogotá–La Calera","En bici (subida clásica), carro o bus a La Calera","Gratis","0","Ciclistas y caminantes","Vista de la ciudad y paradores de comida","Ascenso exigente y paisaje","Bogotá activa",""],
+["T","Local","Mirador de la Torre Colpatria","Cra 7 #24-89","TransMilenio Museo Nacional","≈ $10–15 mil","1","Todos","Vista panorámica desde el piso 48","Perspectiva de la ciudad","¿Qué hacer en Bogotá?",""],
+["T","Local","Jardín Botánico y Tropicario","Av. Calle 63 #68-95, Engativá","TransMilenio Av. Rojas o rutas por la Calle 63","$16.000 nacionales (incluye Tropicario desde julio 2026)","1","Todos","Colecciones de flora colombiana y el tropicario más grande de Suramérica","Caminata contemplativa y aire limpio","Bogotá activa","jbb"],
+["T","Local","Humedal La Conejera","Suba (Fontanar del Río)","TransMilenio Suba y SITP","Gratis con recorrido guiado","0","Todos","Senderos de madera y aves acuáticas","Naturaleza dentro de la ciudad","Power Fit por localidad",""],
+["T","Local","Parque Ecológico Entrenubes","Usme y San Cristóbal","TransMilenio a Usme y SITP","Gratis","0","Todos","Senderos y miradores del sur de la ciudad","Caminata y paisaje del sur","Power Fit por localidad",""],
+// TURISMO · Rural y nacional
+["T","Rural y nacional","Parque Natural Chicaque","San Antonio del Tequendama","Expreso Chicaque desde TransMilenio Terreros, sábados, domingos y festivos de 7 a 11 a. m., $7.000 por trayecto","Entrada adulto $20.000; arborismo $65 mil; tirolesa $40 mil","1","Todos; el regreso es en subida","Bosque de niebla, senderos y cabalgata","Caminata exigente de regreso y aire puro","Bogotá activa","chi"],
+["T","Rural y nacional","Laguna de Guatavita","Sesquilé, Cundinamarca","Bus por la salida norte hasta Sesquilé (≈ $13 mil) y transporte local","$15.000 nacionales (precio 2024); cerrada los lunes no festivos","1","Todos","Sendero hasta la laguna de la leyenda de El Dorado","Caminata de altura y cultura muisca","Bogotá activa","gua"],
+["T","Rural y nacional","Catedral de Sal de Zipaquirá","Zipaquirá","Bus desde el Portal Norte (≈ 1 h)","Plan básico $66.000 (13 a 59 años)","2","Todos","Catedral subterránea en una mina de sal","Asombro y plan cultural de día","¿Qué hacer en Bogotá?","zip"],
+["T","Rural y nacional","Pueblo de Guatavita y embalse de Tominé","Guatavita","Bus desde el Portal Norte (≈ 1 h 30)","Gratis el pueblo; actividades aparte","0","Todos","Pueblo blanco, embalse y deportes náuticos","Plan relajado de domingo","Bogotá activa",""],
+["T","Rural y nacional","PNN Chingaza","La Calera y Fómeque (sector Siecha o Monterredondo)","Carro o tour; reserva previa obligatoria con Parques Nacionales","Entrada $29.000 (2026) más transporte","2","Personas con buena condición física","Páramo, lagunas y frailejones","Senderismo de alta montaña","Bogotá activa","pnn"],
+["T","Rural y nacional","Salto del Tequendama y Casa Museo","Soacha, vía a El Colegio","Carro o bus desde el Portal Sur","≈ $10–20 mil la casa museo","1","Todos","Cascada de 157 m y mansión restaurada","Paisaje e historia","¿Qué hacer en Bogotá?",""],
+["T","Rural y nacional","Nemocón: mina de sal","Nemocón","Bus desde el Portal Norte (≈ 1 h 15)","≈ $35–50 mil","1","Todos","Mina con espejos de agua salada","Plan cultural alternativo a Zipaquirá","¿Qué hacer en Bogotá?",""],
+["T","Rural y nacional","Sopó y Parque Pionono","Sopó","Bus o carro por la salida norte (≈ 1 h)","Bajo costo","1","Todos","Caminata hasta unos 3.250 m, aves y lácteos del pueblo","Caminata con vista de la Sabana","Bogotá activa","ext"],
+["T","Rural y nacional","Ruta en bici a Chía, Cota y Siberia","Sabana de Bogotá","Desde tu casa en bici","Gratis","0","Ciclistas con base de 40 km o más","Ruta plana con paradas de pueblo","Fondo aeróbico y paisaje","Bogotá activa",""],
+["T","Rural y nacional","Ruta en bici Sopó–Guasca","Sopó y Guasca","Bici desde Bogotá o lleva la bici en carro hasta Sopó","Gratis","0","Ciclistas intermedios","Ascenso al Alto de la Cabaña y descenso a Guasca","Gran entrenamiento de montaña","Bogotá activa",""],
+["T","Rural y nacional","Villa de Leyva","Boyacá (≈ 3 h 30)","Bus desde la Terminal del Salitre","≈ $50–150 mil por día sin hospedaje","2","Todos","Plaza colonial, desierto de la Candelaria y pozos azules","Desconexión de fin de semana","Bogotá activa",""],
+["T","Rural y nacional","Eje Cafetero (Salento y Valle de Cocora)","Quindío","Vuelo a Armenia o bus (≈ 8 h)","≈ $600 mil–1,2 millones por 3 días","3","Todos","Palmas de cera, café y caminatas","Viaje de puente activo","Bogotá activa",""],
+["T","Rural y nacional","San Gil (aventura)","Santander","Bus (≈ 7 h) o vuelo a Bucaramanga","≈ $700 mil–1,3 millones por 3 días","3","Amantes de la adrenalina","Rafting del río Suárez, parapente en Chicamocha, cuevas","La capital de la aventura en Colombia","Descubre un deporte",""],
+["T","Rural y nacional","Santa Marta y Tayrona","Magdalena","Vuelo directo (≈ 1 h 30)","≈ $900 mil–1,8 millones por 4 días","3","Todos","Playas, selva y caminatas","Vacaciones activas de fin de año","Bogotá activa",""],
+// TURISMO · Internacional
+["T","Internacional","Quito y la Mitad del Mundo","Ecuador","Vuelo directo (≈ 1 h 30)","≈ $1,5–2,5 millones por 4 días","3","Adultos con pasaporte o cédula (verifica requisitos)","Centro histórico, volcanes y senderismo","Senderismo de altura en otro país","Bogotá activa",""],
+["T","Internacional","Ciudad de Panamá","Panamá","Vuelo directo (≈ 1 h 45)","≈ $1,5–2,8 millones por 4 días","3","Adultos con pasaporte","Canal, Casco Viejo y ciclovía de la Cinta Costera","Viaje corto y urbano","Bogotá activa",""],
+["T","Internacional","Cusco y Machu Picchu","Perú","Vuelo vía Lima","≈ $3–5 millones por 6 días","3","Personas con buena condición física","Camino Inca o tren y ruinas","Un reto de vida de senderismo","Bogotá activa",""],
+["T","Internacional","Ciudad de México","México","Vuelo directo (≈ 4 h 30)","≈ $3–5 millones por 6 días","3","Adultos con pasaporte (verifica requisitos migratorios)","Museos, gastronomía y lucha libre","Cultura y comida a gran escala","¿Qué hacer en Bogotá?",""],
+["T","Internacional","Lima y la costa verde","Perú","Vuelo directo (≈ 3 h)","≈ $2–3,5 millones por 5 días","3","Adultos con pasaporte o cédula","Gastronomía de clase mundial y surf","Viaje gastronómico y deportivo","Bogotá activa",""],
+// CULTURA · Sitios de interés
+["C","Sitios de interés","Museo del Oro","Cra 6 #15-88","TransMilenio estación Museo del Oro","Gratis los domingos","0","Todos","La mayor colección de orfebrería prehispánica del mundo","Cultura e identidad","¿Qué hacer en Bogotá?","mus"],
+["C","Sitios de interés","Museo Botero","Calle 11 #4-41, La Candelaria","TransMilenio Las Aguas o Museo del Oro","Gratis todos los días excepto martes","0","Todos","Obras de Botero y de su colección internacional","Plan cultural tranquilo","¿Qué hacer en Bogotá?","mus"],
+["C","Sitios de interés","Museo Nacional de Colombia","Cra 7 #28-66","TransMilenio Museo Nacional","Gratis los miércoles de 3 a 5 p. m. y el último domingo del mes","0","Todos","Historia y arte de Colombia en un antiguo panóptico","Cultura y memoria","¿Qué hacer en Bogotá?","mus"],
+["C","Sitios de interés","Museo de Bogotá","Calle 12B #2-96","TransMilenio Las Aguas","Gratis","0","Todos","La historia de la ciudad","Entender la ciudad para tu contenido","¿Qué hacer en Bogotá?","mus"],
+["C","Sitios de interés","Casa del Florero (Museo de la Independencia)","Cra 7 #11-28","TransMilenio Museo del Oro","Gratis los miércoles de 3 a 5 p. m. y el último domingo del mes","0","Todos","El lugar del grito de independencia de 1810","Historia patria","¿Qué hacer en Bogotá?","mus"],
+["C","Sitios de interés","MAMBO (Museo de Arte Moderno)","Calle 24 #6-00","TransMilenio Museo Nacional o Las Nieves","≈ $10–15 mil","1","Todos","Arte moderno y contemporáneo","Inspiración creativa","¿Qué hacer en Bogotá?",""],
+["C","Sitios de interés","Biblioteca Luis Ángel Arango","Calle 11 #4-14","TransMilenio Las Aguas","Gratis","0","Todos","Una de las bibliotecas más visitadas de América Latina, con sala de conciertos","Lectura y estudio","¿Qué hacer en Bogotá?",""],
+["C","Sitios de interés","Teatro Colón","Calle 10 #5-32","TransMilenio Museo del Oro","Funciones ≈ $30–150 mil; visitas guiadas más baratas","2","Todos","Teatro de 1892 con ópera, danza y conciertos","Cultura y una noche diferente","¿Qué hacer en Bogotá?",""],
+["C","Sitios de interés","Quinta de Bolívar","Calle 21 #4A-30 Este","TransMilenio Las Aguas","≈ $5–10 mil","1","Todos","Casa y jardines donde vivió Bolívar, al pie de Monserrate","Historia y jardín tranquilo","¿Qué hacer en Bogotá?",""],
+// CULTURA · Gastronomía
+["C","Gastronomía","Plaza de mercado de Paloquemao","Av. Calle 19 con Cra 25","TransMilenio estación Paloquemao","Gratis la entrada","0","Todos","Frutas exóticas, flores al amanecer y comida típica","Mercado saludable y fresco para la semana","Hábitos Power Fit",""],
+["C","Gastronomía","Mercado de La Perseverancia","Cra 5 con Calle 30","TransMilenio Museo Nacional","Almuerzo ≈ $20–35 mil","1","Todos","Cocinas tradicionales en una plaza de barrio","Comida casera de verdad","¿Qué hacer en Bogotá?",""],
+["C","Gastronomía","Mercados campesinos","Parques y plazas de distintas localidades (programa distrital)","Consulta el calendario de la Secretaría de Desarrollo Económico","Gratis la entrada","0","Todos","Productores directos de la región","Comida fresca y apoyo al campo","Power Fit por localidad",""],
+["C","Gastronomía","Ajiaco en La Candelaria","Restaurantes tradicionales del centro histórico","TransMilenio Las Aguas o Museo del Oro","≈ $25–45 mil","1","Todos","El plato bogotano por excelencia","Cultura gastronómica local","¿Qué hacer en Bogotá?",""],
+["C","Gastronomía","Chocolate con queso y onces","Cafés tradicionales del centro","TransMilenio Las Aguas","≈ $10–20 mil","1","Todos","La costumbre bogotana de la tarde","Plan de domingo en familia","¿Qué hacer en Bogotá?",""],
+["C","Gastronomía","Ruta de café de especialidad","Chapinero y Quinta Camacho","TransMilenio por la Caracas o SITP por la Cra 7","≈ $10–25 mil por taza","1","Todos","Baristas, métodos de filtrado y cafés de origen","Disfrutar con moderación y conocer el café colombiano","¿Qué hacer en Bogotá?",""],
+["C","Gastronomía","Zona G y Quinta Camacho","Calles 69–70 con Cra 4–5","SITP por la Cra 7","≈ $60–150 mil por persona","2","Todos","La zona gourmet de la ciudad","Plan especial de celebración","¿Qué hacer en Bogotá?",""],
+["C","Gastronomía","Restaurantes saludables","Chapinero, Usaquén y Cedritos","Según la zona","≈ $25–45 mil","1","Todos","Bowls, platos vegetarianos y menús balanceados","Ideas para tu propia cocina","Hábitos Power Fit",""],
+["C","Gastronomía","Comida de pueblo en la Sabana","Plazas de Chía, Cajicá, Sopó y Guatavita","Bus por la salida norte","≈ $20–40 mil","1","Todos","Mute, cuchuco, postres de leche","Cierre del paseo de domingo","Bogotá activa",""],
+// CULTURA · Ferias y eventos
+["C","Ferias y eventos","Salsa al Parque","Parque Simón Bolívar (entrada por la Calle 63)","TransMilenio estación Simón Bolívar","Gratis","0","Todos","28 y 29 de noviembre de 2026","Baile, música en vivo y comunidad","¿Qué hacer en Bogotá?","fest"],
+["C","Ferias y eventos","Expoartesanías","Corferias (Cra 37 #24-67)","TransMilenio estación Corferias","Entrada ≈ $20–30 mil (confirmar)","1","Todos","Del 7 al 20 de diciembre: artesanía de todo el país","Regalos con sentido y cultura","¿Qué hacer en Bogotá?","nav"],
+["C","Ferias y eventos","Navidad es Cultura","Plaza de Bolívar, La Santamaría y Parque El Tunal","TransMilenio Museo del Oro (Plaza de Bolívar) o Portal Tunal","Por confirmar (en años anteriores, gratis)","0","Todos","Del 12 al 23 de diciembre, funciones de 7 a 9:30 p. m.","Plan familiar navideño","¿Qué hacer en Bogotá?","nav"],
+["C","Ferias y eventos","Día de las Velitas","Tu barrio y los parques de la ciudad","Cerca de casa","Gratis","0","Todos","Noche del 7 de diciembre","Tradición en familia","Conociendo a la comunidad","nav"],
+["C","Ferias y eventos","Novena de aguinaldos","Casa, parroquia o con amigos","Cerca de casa","Gratis","0","Todos","Del 16 al 24 de diciembre","Espiritualidad y unión familiar","Conociendo a la comunidad","nav"],
+["C","Ferias y eventos","Música en Usaquén","Parque Alcalá y Parque Villas de Aranjuez","SITP por la Cra 7 o la Calle 134","Gratis","0","Todos","11 al 13 y 18 al 20 de diciembre","Música en vivo cerca de casa","Power Fit por localidad","nav"],
+["C","Ferias y eventos","Alumbrados navideños","Parque Nacional, Parque de la Independencia, El Tunal, Jardín Botánico","Según el parque","Gratis los parques; el Jardín Botánico con entrada","0","Todos","Encendido en diciembre; fecha oficial por confirmar","Caminata nocturna en familia","¿Qué hacer en Bogotá?","nav"],
+["C","Ferias y eventos","Martin Garrix en el Movistar Arena","Diagonal 61C #26-35, Teusaquillo","TransMilenio estación Movistar Arena","Boletería pagada","3","Mayores de edad","Viernes 4 de diciembre de 2026","Plan musical de alto voltaje","¿Qué hacer en Bogotá?","conc"],
+["C","Ferias y eventos","Fútbol profesional en El Campín","Estadio El Campín (Cra 30 con Calle 57)","TransMilenio estación El Campín","Boletería ≈ $40–200 mil según tribuna","2","Mayores de 14 años","Millonarios y Santa Fe pelean cupo a cuadrangulares (nov–dic)","Ambiente único y contenido para la comunidad","Conociendo a la comunidad","liga"],
+["C","Ferias y eventos","Ciclovía Nocturna navideña","Vías principales de Bogotá","En tu bici","Gratis","0","Todos","Suele hacerse un jueves de diciembre; fecha por confirmar","Rodada festiva con toda la ciudad","Bogotá activa",""],
+// TRABAJO, ESTUDIO Y OFICIOS
+["P","Proyectos","Piloto de 30 días de Power Fit","Tus canales y el grupo de WhatsApp","Desde casa","Gratis","0","Tú","Hipótesis, encuesta (150), entrevistas (10–20) y decisión de escala","Te da un objetivo claro para el tiempo libre","Conociendo a la comunidad",""],
+["P","Proyectos","Agenda semanal automatizada con IA","Claude y tus herramientas de publicación","Desde casa","Según tu plan de herramientas","1","Tú","Una tarea programada que te entregue los eventos de la semana cada lunes","Ahorra horas de búsqueda y deja más tiempo para vivir las actividades","¿Qué hacer en Bogotá?",""],
+["P","Proyectos","Alianzas con periodistas y clubes","Clubes deportivos, colectivos de bici y prensa deportiva","Eventos y redes","Gratis","0","Tú","2 o 3 contactos al mes para colaboraciones","Crecimiento de la comunidad sin pauta","Conociendo a la comunidad",""],
+["P","Universidad","Certificación de Meta (Blueprint)","En línea","Desde casa","Cursos gratis; examen de certificación pago","1","Tú","Validar tu experiencia en Meta Ads","Respaldo profesional para vender pauta más adelante","No sé por dónde empezar",""],
+["P","Universidad","Cursos del SENA (Sofía Plus)","En línea","Desde casa","Gratis","0","Todos","Analítica de datos, comercio electrónico y más","Formación sin costo","No sé por dónde empezar",""],
+["P","Universidad","Curso de automatización e IA aplicada","En línea","Desde casa","Gratis o bajo costo","1","Tú","Agentes, automatizaciones y análisis de datos","Lo que necesitas para operar Power Fit solo","No sé por dónde empezar",""],
+["P","Oficios varios","Mercado y preparación de comidas","Paloquemao, mercado campesino o supermercado","Sábado de 12:30 a 2 p. m.","Tu presupuesto de mercado","1","Tú","Dejar listos los almuerzos de la semana","Comer mejor sin depender de la improvisación","Hábitos Power Fit",""],
+["P","Oficios varios","Revisión de finanzas personales","Tu casa","Primer sábado del mes, en el bloque de Power Fit","Gratis","0","Tú","Presupuesto de ocio y de Power Fit del mes","Disfrutar sin estrés económico","Hábitos Power Fit",""],
+["P","Oficios varios","Orden y limpieza de casa","Tu casa","En casa","Gratis","0","Tú","20 min diarios en vez de una jornada larga","Un espacio ordenado ayuda a la calma","Hábitos Power Fit",""]
+];
+
+// ---------- Vistas ----------
+const $=s=>document.querySelector(s);
+const st={n:"",sub:"",c:"",q:"",o:""};
+function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
+const NN=Object.fromEntries(NICHOS);
+
+// ---------- Capa editable: tus actividades, cambios, itinerarios y bitácora ----------
+// Las 143 actividades originales (A) nunca se modifican: tus cambios se guardan aparte y se pueden restaurar.
+const FIELDS=["n","sub","name","where","how","cost","tier","who","expect","ben","serie","src"];
+const BASE_ACTS=A.map((a,i)=>{const o={id:"b"+i};FIELDS.forEach((k,j)=>o[k]=a[j]);return o});
+const S={custom:[],overrides:{},days:{},db:null,uid:null};
+function allActs(){
+  return BASE_ACTS.map(o=>S.overrides[o.id]?Object.assign({},o,S.overrides[o.id],{id:o.id,edited:true}):o)
+    .concat(S.custom.map(c=>Object.assign({},c,{custom:true})));
+}
+function actById(id){return allActs().find(a=>a.id===id)||null}
+function subsOf(n){return [...new Set(allActs().filter(a=>!n||a.n===n).map(a=>a.sub))]}
+
+function renderStats(){
+  const L=allActs();
+  const free=L.filter(a=>String(a.tier)==="0").length;
+  const subs=new Set(L.map(a=>a.n+a.sub)).size;
+  const mine=S.custom.length;
+  $("#stats").innerHTML=`<span><b>${L.length}</b>actividades</span><span><b>${subs}</b>subcategorías</span><span><b>${free}</b>gratis</span>${mine?`<span><b>${mine}</b>creadas por ti</span>`:""}<span><b>8 h</b>semanales para Power Fit</span>`;
+}
+function renderChips(){
+  const L=allActs(), box=$("#nichos");
+  const all=[["","Todos"],...NICHOS];
+  box.innerHTML=all.map(([k,l])=>{const c=k?L.filter(a=>a.n===k).length:L.length;return `<button class="chip" data-k="${k}" aria-pressed="${st.n===k}">${l} · ${c}</button>`}).join("");
+  box.querySelectorAll(".chip").forEach(b=>b.onclick=()=>{st.n=b.dataset.k;st.sub="";renderChips();renderSubs();renderGrid()});
+}
+function renderSubs(){
+  $("#fsub").innerHTML=`<option value="">Todas las subcategorías</option>`+subsOf(st.n).map(s=>`<option ${s===st.sub?"selected":""}>${esc(s)}</option>`).join("");
+}
+function srcHtml(a){
+  const s=a.src&&SRC[a.src];
+  if(s) return `<span class="ver">Verificado</span><a href="${s[1]}" target="_blank" rel="noopener">${esc(s[0])}</a>`;
+  if(a.src&&/^https?:\/\//i.test(a.src)) return `<a href="${esc(a.src)}" target="_blank" rel="noopener">Fuente</a>`;
+  return a.custom?`<span>Creada por ti</span>`:`<span>Precio de referencia, confirmar</span>`;
+}
+function dlRow(t,v){return v?`<dt>${t}</dt><dd>${esc(v)}</dd>`:""}
+function renderGrid(){
+  const q=st.q.trim().toLowerCase(), L=allActs();
+  const list=L.filter(a=>(!st.n||a.n===st.n)&&(!st.sub||a.sub===st.sub)&&(!st.c||String(a.tier)===st.c)&&(!st.o||(st.o==="mine"?a.custom:a.edited))&&(!q||FIELDS.map(k=>a[k]||"").join(" ").toLowerCase().includes(q)));
+  $("#count").textContent=`${list.length} de ${L.length}`;
+  if(!list.length){$("#grid").innerHTML=`<div class="empty">No hay actividades con esos filtros. Prueba con otro presupuesto, borra la búsqueda o crea una actividad nueva.</div>`;return}
+  $("#grid").innerHTML=list.map(a=>`<article class="card">
+      <div class="head"><div><div class="tag">${esc(NN[a.n]||a.n)} · ${esc(a.sub)}${a.custom?`<span class="badge mine">Tuya</span>`:a.edited?`<span class="badge">Editada</span>`:""}</div><h3>${esc(a.name)}</h3></div><span class="price ${String(a.tier)==="0"?"free":""}">${TIER[+a.tier]||""}</span></div>
+      <dl>${dlRow("Dónde",a.where)}${dlRow("Cómo llegar",a.how)}${dlRow("Cuánto",a.cost)}${dlRow("Para quién",a.who)}${dlRow("Qué esperar",a.expect)}</dl>
+      ${a.ben?`<div class="ben">${esc(a.ben)}</div>`:""}
+      <div class="foot"><span>Serie: ${esc(a.serie||"Sin serie")}</span>${srcHtml(a)}</div>
+      <div class="acts"><button class="btn sm primary" type="button" data-a="add" data-id="${a.id}">Agregar a mi día</button><button class="btn sm" type="button" data-a="edit" data-id="${a.id}">Editar</button>${a.edited?`<button class="btn sm ghost" type="button" data-a="reset" data-id="${a.id}">Restaurar original</button>`:""}${a.custom?`<button class="btn sm danger" type="button" data-a="del" data-id="${a.id}">Eliminar</button>`:""}</div>
+    </article>`).join("");
+}
+$("#fsub").onchange=e=>{st.sub=e.target.value;renderGrid()};
+$("#fcost").onchange=e=>{st.c=e.target.value;renderGrid()};
+$("#fq").oninput=e=>{st.q=e.target.value;renderGrid()};
+$("#forig").onchange=e=>{st.o=e.target.value;renderGrid()};
+$("#btn-new").onclick=()=>openActForm(null);
+$("#grid").addEventListener("click",e=>{
+  const b=e.target.closest("button[data-a]"); if(!b) return;
+  const id=b.dataset.id, act=b.dataset.a;
+  if(act==="add") planActivity(id);
+  else if(act==="edit") openActForm(id);
+  else if(act==="reset"){ if(!arm(b,"¿Restaurar? Sí")) return; delete S.overrides[id]; saveActs(); renderAll(); toast("Actividad restaurada a su versión original"); }
+  else if(act==="del"){ if(!arm(b,"¿Eliminar? Sí")) return; S.custom=S.custom.filter(c=>c.id!==id); saveActs(); renderAll(); toast("Actividad eliminada"); }
+});
+// Confirmación en la misma página: el primer toque arma el botón, el segundo confirma.
+function arm(b,label){
+  if(b.dataset.armed) return true;
+  b.dataset.armed="1"; const old=b.textContent; b.textContent=label; b.classList.add("armed");
+  setTimeout(()=>{if(b.isConnected){delete b.dataset.armed;b.textContent=old;b.classList.remove("armed")}},3500);
+  return false;
+}
+let toastT;
+function toast(m){const t=$("#toast");t.textContent=m;t.hidden=false;clearTimeout(toastT);toastT=setTimeout(()=>{t.hidden=true},3200)}
+
+// ---------- Guardado: tu cuenta (db) con respaldo en este navegador ----------
+const LS_KEY="powerfit-agenda-v2";
+function lsLoad(){try{const s=JSON.parse(localStorage.getItem(LS_KEY)||"null");if(s&&typeof s==="object"){S.custom=Array.isArray(s.custom)?s.custom:[];S.overrides=s.overrides&&typeof s.overrides==="object"?s.overrides:{};S.days=s.days&&typeof s.days==="object"?s.days:{}}}catch(e){}}
+function lsSave(){try{localStorage.setItem(LS_KEY,JSON.stringify({custom:S.custom,overrides:S.overrides,days:S.days}))}catch(e){}}
+const SYNC={load:"Conectando con tu cuenta…",ok:"Guardado en tu cuenta",slow:"Tu cuenta aún no responde; tus cambios quedan en este navegador",local:"Guardando solo en este navegador",err:"No se pudo guardar en tu cuenta; tus cambios siguen en este navegador"};
+function setSync(s,e){const el=$("#sync");el.dataset.s=s;let t=SYNC[s];if(s==="err"&&e&&e.code==="quota_exceeded")t="Se llenó el espacio de esta página en tu cuenta; vacía días antiguos";el.querySelector("span").textContent=t}
+const Q={};
+function pending(key){const w=Q[key];return !!(w&&(w.busy||w.next!==undefined))}
+function dbPut(key,body){
+  if(!S.db||!S.uid) return;
+  const w=Q[key]||(Q[key]={busy:false,next:undefined});
+  w.next=body; if(!w.busy) pump(key);
+}
+async function pump(key){
+  const w=Q[key]; w.busy=true;
+  while(w.next!==undefined){
+    const body=w.next; w.next=undefined;
+    const ref=S.db.doc("data/users/"+S.uid+"/"+key);
+    for(let t=0;t<2;t++){
+      try{ if(body===null) await ref.delete(); else await ref.set(body); setSync("ok"); break; }
+      catch(e){ if(e&&e.code==="unavailable"&&t===0){await new Promise(r=>setTimeout(r,600+Math.random()*900));continue} setSync("err",e); break; }
+    }
+  }
+  w.busy=false;
+}
+function saveActs(){lsSave();dbPut("actividades",{custom:S.custom,overrides:S.overrides})}
+function dayEmpty(d){return !d||(!(d.items||[]).length&&!Object.keys(d.log||{}).some(k=>{const v=d.log[k];return Array.isArray(v)?v.length>0:(v!==""&&v!=null)}))}
+function saveDay(k){
+  if(dayEmpty(S.days[k])) delete S.days[k];
+  lsSave();
+  const d=S.days[k];
+  dbPut("dia-"+k,d?{date:k,items:d.items||[],log:d.log||{}}:null);
+}
+const dayTimers={};
+function saveDaySoon(k){clearTimeout(dayTimers[k]);$("#log-saved").textContent="Guardando…";dayTimers[k]=setTimeout(()=>{delete dayTimers[k];saveDay(k);$("#log-saved").textContent="Guardado"},700)}
+async function connect(){
+  setSync("load");
+  let db=null,uid=null;
+  try{
+    if(window.claude&&typeof window.claude.use==="function"){
+      const r=await Promise.all([window.claude.use("db"),window.claude.use("user")]);
+      db=r[0]; uid=r[1]?await r[1].id():null;
+    }
+  }catch(e){}
+  if(!db||!uid){setSync("local");return}
+  S.db=db;S.uid=uid;
+  const timer=setTimeout(()=>setSync("slow"),10000);
+  let ready=false;
+  db.collection("data/users/"+uid).onSnapshot(snap=>{
+    if(snap.metadata.fromCache&&!ready) return;
+    if(!ready){
+      ready=true;clearTimeout(timer);setSync("ok");
+      // Primera vez con cuenta: sube lo que ya tenías en este navegador.
+      if(snap.empty&&(S.custom.length||Object.keys(S.overrides).length||Object.keys(S.days).length)){
+        saveActs(); Object.keys(S.days).forEach(k=>saveDay(k)); return;
+      }
+    }
+    let acts=null; const days={};
+    snap.docs.forEach(d=>{const v=d.data()||{}; if(d.id==="actividades")acts=v; else if(d.id.indexOf("dia-")===0)days[d.id.slice(4)]=v});
+    if(!pending("actividades")){
+      S.custom=Array.isArray(acts&&acts.custom)?JSON.parse(JSON.stringify(acts.custom)):[];
+      S.overrides=acts&&acts.overrides?JSON.parse(JSON.stringify(acts.overrides)):{};
+    }
+    new Set(Object.keys(S.days).concat(Object.keys(days))).forEach(k=>{
+      if(pending("dia-"+k)||dayTimers[k]) return;
+      if(days[k]) S.days[k]={items:JSON.parse(JSON.stringify(days[k].items||[])),log:JSON.parse(JSON.stringify(days[k].log||{}))};
+      else delete S.days[k];
+    });
+    lsSave(); renderAll();
+  },err=>{clearTimeout(timer);setSync("err",err)});
+}
+
+// ---------- Semana ----------
+const W={
+ Lunes:[["05:30","Despertar, agua y respiración 5 min","bien"],["06:00–07:00","Gimnasio · fuerza A (piernas)","ej"],["08:00–18:00","Trabajo","trab"],["11:00–11:30","Pausa activa: movilidad y caminata","bien"],["14:00–15:00","Almuerzo y caminata de 10 min","bien"],["19:00–20:15","Power Fit · agenda de la semana y guiones","pf"],["21:30","Pantallas fuera y lectura","bien"],["22:15","Dormir","desc"]],
+ Martes:[["05:30","Despertar y respiración","bien"],["06:00–06:40","Natación suave (opcional)","ej"],["08:00–18:00","Trabajo","trab"],["11:00–11:30","Pausa activa","bien"],["14:00–15:00","Almuerzo y caminata","bien"],["19:00–20:15","Power Fit · edición de lote con IA","pf"],["21:30","Lectura","bien"],["22:15","Dormir","desc"]],
+ Miércoles:[["05:30","Despertar y respiración","bien"],["06:00–07:00","Gimnasio · fuerza B (torso)","ej"],["08:00–18:00","Trabajo","trab"],["11:00–11:30","Pausa activa","bien"],["14:00–15:00","Almuerzo y caminata","bien"],["19:00–20:15","Power Fit · terminar y programar publicaciones","pf"],["21:30","Lectura","bien"],["22:15","Dormir","desc"]],
+ Jueves:[["06:30","Despertar más tarde (hay fútbol)","desc"],["08:00–18:00","Trabajo","trab"],["11:00–11:30","Pausa activa","bien"],["14:00–15:00","Almuerzo y caminata","bien"],["19:00–19:45","Power Fit · comunidad y métricas","pf"],["19:45","Cena ligera","bien"],["21:00–22:30","Fútbol con amigos","soc"],["23:00","Dormir","desc"]],
+ Viernes:[["06:15–07:00","Gimnasio corto (o natación si dormiste poco)","ej"],["08:00–18:00","Trabajo","trab"],["11:00–11:30","Pausa activa","bien"],["14:00–15:00","Almuerzo y caminata","bien"],["19:30–22:30","Noche de juegos o plan lúdico","soc"],["23:00","Dormir","desc"]],
+ Sábado:[["07:00","Despertar sin alarma temprana","desc"],["07:30–08:30","Rodada o trote suave","ej"],["09:00–12:30","Power Fit · grabar, editar y revisión semanal","pf"],["12:30–14:00","Mercado y preparar almuerzos","bien"],["14:00 en adelante","Plan recreativo o cultural del calendario","soc"]],
+ Domingo:[["Mañana","Aventura: Ciclovía, sendero o pueblo","ej"],["Mediodía","Familia","desc"],["Tarde","Espiritualidad y descanso","desc"],["20:00","Check-in personal de 10 min","bien"],["21:30","Lectura","bien"],["22:00","Dormir","desc"]]
+};
+function renderWeek(){
+  $("#week").innerHTML=Object.entries(W).map(([d,bs])=>`<div class="day"><h3>${d}</h3>${bs.map(b=>`<div class="blk ${b[2]}"><time>${b[0]}</time>${esc(b[1])}</div>`).join("")}</div>`).join("");
+  $("#hours").innerHTML=[["8 h","Power Fit (5 bloques)"],["3 + 1","Gimnasio + natación opcional"],["2","Planes sociales (fútbol y noche lúdica)"],["≈ 7 h","De sueño por noche entre semana"],["1 día","Domingo sin trabajo"]].map(h=>`<div class="hour"><b>${h[0]}</b><span>${h[1]}</span></div>`).join("");
+}
+
+// ---------- Calendario ----------
+const PH=[["Semana 1 · Preparación","5–11 nov","Hipótesis, KPI, prueba de la encuesta y grupo de WhatsApp"],["Semana 2 · Descubrimiento","12–18 nov","Encuesta en todos los canales y primeras entrevistas"],["Semana 3 · Segmentación","19–25 nov","Cruces por localidad, barreras e intereses"],["Semana 4 · Validación","26 nov–2 dic","Señales de interés en productos y decisión de escala"],["Diciembre · Navidad y cierre","3–31 dic","Campaña navideña, pauta de prueba pequeña y plan 2027"]];
+const HOL={"2026-11-16":"Festivo","2026-12-08":"Festivo","2026-12-25":"Navidad"};
+const EV={
+"2026-11-05":[["Inicia el piloto: escribe 3–5 hipótesis y 8 KPI en el bloque de Power Fit","pf"]],
+"2026-11-06":[["Noche de juegos de mesa en casa","soc"]],
+"2026-11-07":[["PF: prueba la encuesta con 5–10 personas y crea el grupo de WhatsApp","pf"],["Tarde: Jardín Botánico y Tropicario","soc"]],
+"2026-11-08":[["Sendero Quebrada La Vieja (inscríbete antes en la app EAAB)","ej"],["Museo del Oro gratis (domingo), opcional","soc"]],
+"2026-11-09":[["PF: llena el calendario de contenidos de noviembre","pf"]],
+"2026-11-12":[["Semana 2: lanza la encuesta en todos los canales","pf"]],
+"2026-11-13":[["Cuarto de escape con amigos","soc"]],
+"2026-11-14":[["PF: graba «¿Y hoy qué hacemos?» del puente","pf"],["Tarde: Usaquén o cine","soc"]],
+"2026-11-15":[["Laguna de Guatavita y pueblo (sal temprano por la salida norte)","ej"]],
+"2026-11-16":[["Festivo: Ciclovía y descanso","ej"]],
+"2026-11-17":[["PF: 2 entrevistas por videollamada","pf"]],
+"2026-11-18":[["PF: 2 entrevistas y programar publicaciones","pf"]],
+"2026-11-19":[["Semana 3: cruza datos por localidad e intereses","pf"]],
+"2026-11-20":[["Tejo con amigos","soc"]],
+"2026-11-21":[["PF: documenta un partido o evento deportivo","pf"],["Tarde: free walking tour en La Candelaria","soc"]],
+"2026-11-22":[["Chicaque: Expreso desde TM Terreros, 7–11 a. m.","ej"]],
+"2026-11-25":[["PF: informe de segmentación (Anexo 05)","pf"]],
+"2026-11-26":[["Semana 4: publica 3 categorías y 3–5 productos para medir interés","pf"]],
+"2026-11-27":[["Cine o noche de juegos","soc"]],
+"2026-11-28":[["PF: prepara la campaña de Navidad","pf"],["Noche: Salsa al Parque, Simón Bolívar","soc"]],
+"2026-11-29":[["Ciclovía temprano","ej"],["Museo Nacional gratis (último domingo) o Salsa al Parque día 2","soc"]],
+"2026-11-30":[["Sale la campaña de Navidad · cierre de Fase 2 (comunidad y CRM)","pf"]],
+"2026-12-02":[["Registro CEO: decisión de escala y de pauta de prueba","pf"]],
+"2026-12-04":[["Martin Garrix en el Movistar Arena (opcional) o noche de juegos","soc"]],
+"2026-12-05":[["PF: borrador del modelo financiero (Anexo 08) y finanzas del mes","pf"],["Tarde: Planetario o alumbrados si ya están encendidos","soc"]],
+"2026-12-06":[["Catedral de Sal de Zipaquirá y almuerzo en el pueblo","ej"]],
+"2026-12-07":[["Noche de Velitas en familia","desc"]],
+"2026-12-08":[["Festivo: Monserrate a pie temprano y Expoartesanías en la tarde","ej"]],
+"2026-12-09":[["PF: si los datos lo respaldan, pauta pequeña para crecer la comunidad","pf"]],
+"2026-12-11":[["Música en Usaquén (11–13 dic)","soc"]],
+"2026-12-12":[["PF: graba el especial navideño","pf"],["Noche: Navidad es Cultura, Plaza de Bolívar","soc"]],
+"2026-12-13":[["PNN Chingaza (reserva previa con Parques Nacionales)","ej"]],
+"2026-12-16":[["Empieza la novena: hazla tu noche lúdica con amigos o familia","soc"]],
+"2026-12-18":[["Novena y juegos","soc"]],
+"2026-12-19":[["PF: video resumen del año y plan de enero","pf"],["Noche: alumbrados del Parque Nacional o El Tunal","soc"]],
+"2026-12-20":[["Parapente en Sopó o escalada en Suesca","ej"]],
+"2026-12-24":[["Nochebuena: sin fútbol esta semana","desc"]],
+"2026-12-25":[["Navidad en familia y descanso","desc"]],
+"2026-12-26":[["Día libre; el bloque de Power Fit es opcional","desc"]],
+"2026-12-27":[["Subida en bici a Patios (La Calera)","ej"]],
+"2026-12-31":[["Cierre del año: revisa tus hábitos y escribe 3 metas para 2027","bien"]]
+};
+const DOW=["Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado"];
+const BASE={1:"Gym · PF agenda",2:"Natación · PF edición",3:"Gym · PF programar",4:"PF comunidad · Fútbol 9 p. m.",5:"Gym · Noche lúdica",6:"PF 9:00–12:30 · Plan de tarde",0:"Aventura · Familia · Descanso"};
+function iso(d){return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}
+function renderCal(){
+  $("#phase").innerHTML=PH.map(p=>`<div class="ph"><b>${p[0]}</b>${p[1]} · ${p[2]}</div>`).join("");
+  const start=new Date(2026,10,2), end=new Date(2026,11,31), first=new Date(2026,10,5);
+  const mon=["ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic"];
+  let html="", d=new Date(start);
+  while(d<=end){
+    const wkStart=new Date(d); const wkEnd=new Date(d); wkEnd.setDate(wkEnd.getDate()+6);
+    let cells="";
+    for(let i=0;i<7;i++){
+      const k=iso(d), dow=d.getDay(), out=d<first||d>end;
+      const hol=HOL[k];
+      const base=hol?"Día festivo: rutina de domingo":BASE[dow];
+      const evs=(EV[k]||[]).map(e=>`<div class="ev ${e[1]}">${esc(e[0])}</div>`).join("");
+      cells+=`<div class="md ${out?"out":""} ${hol?"hol":""}"><div class="dn"><span>${DOW[dow].slice(0,3)} ${d.getDate()} ${mon[d.getMonth()]}</span>${hol?`<em>${hol}</em>`:""}</div><div class="base">${base}</div>${evs}${out?"":planBtn(k)}</div>`;
+      d.setDate(d.getDate()+1);
+    }
+    html+=`<div class="mweek"><h3>${wkStart.getDate()} ${mon[wkStart.getMonth()]} – ${wkEnd.getDate()} ${mon[wkEnd.getMonth()]}</h3><div class="mdays">${cells}</div></div>`;
+  }
+  $("#month").innerHTML=html;
+}
+
+function planBtn(k){const n=(dayOf(k).items||[]).length;return n?`<button class="plan-link mine" type="button" data-goto="${k}">Mi plan · ${n}</button>`:`<button class="plan-link" type="button" data-goto="${k}">Planear este día</button>`}
+$("#month").addEventListener("click",e=>{const b=e.target.closest("[data-goto]");if(!b)return;curDate=b.dataset.goto;resetForm();location.hash="#dia";renderDay()});
+
+// ---------- Mi día: itinerario editable ----------
+const CAT={trab:"Trabajo",ej:"Ejercicio",pf:"Power Fit",bien:"Bienestar y hábitos",soc:"Social y recreación",desc:"Descanso y familia"};
+const RUTINA=[["Trabajo","trab"],["Gimnasio del conjunto","ej"],["Natación en el conjunto","ej"],["Pausa activa","bien"],["Almuerzo y caminata","bien"],["Bloque de Power Fit","pf"],["Grabación de contenido","pf"],["Edición y programación de publicaciones","pf"],["Lectura","bien"],["Respiración o meditación","bien"],["Mercado y cocina","bien"],["Fútbol con amigos","soc"],["Noche de juegos","soc"],["Familia","desc"],["Espiritualidad","desc"],["Descanso","desc"],["Transporte","trab"],["Dormir","desc"]];
+const MES=["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
+function catOf(a){if(!a)return "soc";if(a.n==="P")return "pf";if(a.n==="A")return a.sub==="Bienestar"?"bien":"ej";if(a.n==="D")return "ej";return "soc"}
+const pad=n=>String(n).padStart(2,"0");
+function toMin(t){const m=/^(\d{1,2}):(\d{2})$/.exec(t||"");return m?(+m[1])*60+(+m[2]):null}
+function fromMin(m){m=Math.max(0,Math.min(23*60+59,Math.round(m)));return pad(Math.floor(m/60))+":"+pad(m%60)}
+function durTxt(m){m=Math.max(0,m);const h=Math.floor(m/60),r=m%60;return h?(h+" h"+(r?" "+r:"")):r+" min"}
+function parseIso(k){const p=k.split("-").map(Number);return new Date(p[0],p[1]-1,p[2])}
+function addDays(k,n){const d=parseIso(k);d.setDate(d.getDate()+n);return iso(d)}
+function todayK(){return iso(new Date())}
+function longDate(k){const d=parseIso(k);return `${DOW[d.getDay()]} ${d.getDate()} de ${MES[d.getMonth()]}`}
+function dayOf(k){return S.days[k]||{items:[],log:{}}}
+function ensureDay(k){if(!S.days[k])S.days[k]={items:[],log:{}};if(!S.days[k].items)S.days[k].items=[];if(!S.days[k].log)S.days[k].log={};return S.days[k]}
+function uid8(){return Date.now().toString(36)+Math.random().toString(36).slice(2,7)}
+function sorted(items){return [...items].sort((a,b)=>toMin(a.start)-toMin(b.start)||toMin(a.end)-toMin(b.end))}
+let curDate=addDays(todayK(),1);
+let editId=null, editFrom=null, autoNote="";
+
+function suggestStart(){
+  const live=sorted(dayOf(curDate).items.filter(i=>i.status!=="cancelado"&&i.cat!=="trab"&&!/Dormir/.test(i.title)));
+  const last=live.length?toMin(live.at(-1).end):null;
+  return fromMin(last!=null?last:7*60);
+}
+function pickerOptions(filter){
+  const q=(filter||"").trim().toLowerCase(), L=allActs();
+  const match=s=>!q||s.toLowerCase().includes(q);
+  let h=`<option value="">Elige una actividad…</option>`;
+  const r=RUTINA.filter(x=>match(x[0]));
+  if(r.length) h+=`<optgroup label="Rutina">${r.map(x=>`<option value="r:${esc(x[0])}">${esc(x[0])}</option>`).join("")}</optgroup>`;
+  NICHOS.forEach(([k,l])=>{const xs=L.filter(a=>a.n===k&&match([a.name,a.sub,a.where].join(" ")));if(xs.length)h+=`<optgroup label="${esc(l)}">${xs.map(a=>`<option value="a:${a.id}">${esc(a.name)} · ${esc(a.sub)}</option>`).join("")}</optgroup>`});
+  h+=`<option value="x:">Otra: la escribo yo</option>`;
+  return h;
+}
+function fillPicker(keep){
+  const sel=$("#pf-pick"), v=keep!==undefined?keep:sel.value;
+  sel.innerHTML=pickerOptions($("#pf-q").value);
+  if(v&&[...sel.options].some(o=>o.value===v)) sel.value=v;
+}
+function onPick(){
+  const v=$("#pf-pick").value; if(!v) return;
+  const note=$("#pf-note");
+  if(v.indexOf("r:")===0){const r=RUTINA.find(x=>x[0]===v.slice(2));if(r){$("#pf-title").value=r[0];$("#pf-cat").value=r[1];$("#pf-place").value=""}}
+  else if(v.indexOf("a:")===0){
+    const a=actById(v.slice(2));
+    if(a){$("#pf-title").value=a.name;$("#pf-cat").value=catOf(a);$("#pf-place").value=a.where||"";
+      const n=a.cost?("Costo: "+a.cost):""; if(!note.value||note.value===autoNote){note.value=n;autoNote=n}}
+  } else {$("#pf-title").value="";$("#pf-title").focus()}
+  if(!editId&&!$("#pf-start").value){const s=suggestStart();$("#pf-start").value=s;$("#pf-end").value=fromMin(toMin(s)+60)}
+}
+function resetForm(){
+  editId=null;editFrom=null;autoNote="";
+  ["#pf-q","#pf-title","#pf-start","#pf-end","#pf-place","#pf-note"].forEach(s=>{$(s).value=""});
+  $("#pf-cat").value="soc"; fillPicker(""); $("#pf-pick").value="";
+  $("#pf-h").textContent="Agregar al itinerario"; $("#pf-save").textContent="Agregar al itinerario";
+  $("#pf-cancel").hidden=true; $("#pf-datewrap").hidden=true; $("#pf-err").textContent="";
+}
+function startEdit(id){
+  const it=dayOf(curDate).items.find(i=>i.id===id); if(!it) return;
+  resetForm(); editId=id; editFrom=curDate;
+  if(it.ref&&[...$("#pf-pick").options].some(o=>o.value===it.ref)) $("#pf-pick").value=it.ref;
+  $("#pf-title").value=it.title; $("#pf-start").value=it.start; $("#pf-end").value=it.end;
+  $("#pf-cat").value=it.cat||"soc"; $("#pf-place").value=it.place||""; $("#pf-note").value=it.note||"";
+  $("#pf-date").value=curDate; $("#pf-datewrap").hidden=false; $("#pf-cancel").hidden=false;
+  $("#pf-h").textContent="Editar «"+it.title+"»"; $("#pf-save").textContent="Guardar cambios";
+  $("#planform").scrollIntoView({block:"start",behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"});
+  $("#pf-start").focus();
+}
+function saveItem(){
+  const title=$("#pf-title").value.trim(), sm=toMin($("#pf-start").value); let em=toMin($("#pf-end").value);
+  const err=$("#pf-err");
+  if(!title){err.textContent="Escribe un título o elige una actividad.";$("#pf-title").focus();return}
+  if(sm==null){err.textContent="Elige la hora de inicio.";$("#pf-start").focus();return}
+  if(em==null) em=sm+60;
+  if(em<=sm){err.textContent="La hora de fin debe ser después del inicio. Si termina después de medianoche, ponla hasta las 23:59.";$("#pf-end").focus();return}
+  err.textContent="";
+  const pick=$("#pf-pick").value;
+  const item={id:editId||uid8(),title,start:fromMin(sm),end:fromMin(em),cat:$("#pf-cat").value||"soc",place:$("#pf-place").value.trim(),note:$("#pf-note").value.trim(),ref:pick&&pick!=="x:"?pick:"",status:"plan"};
+  if(editId){
+    const from=editFrom, target=$("#pf-date").value||from;
+    const d=ensureDay(from), old=d.items.find(i=>i.id===editId); if(old) item.status=old.status||"plan";
+    d.items=d.items.filter(i=>i.id!==editId);
+    if(target!==from){saveDay(from);item.status="plan"}
+    ensureDay(target).items.push(item); saveDay(target);
+    if(target!==from){curDate=target;toast("Actividad movida al "+longDate(target))} else toast("Cambios guardados");
+  } else {ensureDay(curDate).items.push(item);saveDay(curDate);toast("Agregada a tu itinerario del "+longDate(curDate))}
+  resetForm(); renderDay(); renderCal();
+}
+function weekPF(k){
+  const off=(parseIso(k).getDay()+6)%7; let s=0;
+  for(let i=0;i<7;i++){(dayOf(addDays(k,i-off)).items||[]).forEach(it=>{if(it.cat==="pf"&&it.status!=="cancelado")s+=Math.max(0,toMin(it.end)-toMin(it.start))})}
+  return s;
+}
+function renderItin(){
+  const items=sorted(dayOf(curDate).items||[]);
+  const live=items.filter(i=>i.status!=="cancelado");
+  const mins=c=>live.filter(i=>i.cat===c).reduce((s,i)=>s+Math.max(0,toMin(i.end)-toMin(i.start)),0);
+  const done=items.filter(i=>i.status==="hecho").length;
+  $("#d-sum").innerHTML=items.length?`<span><b>${live.length}</b>actividades</span><span><b>${done}/${live.length}</b>hechas</span><span><b>${durTxt(mins("ej"))}</b>de ejercicio</span><span><b>${durTxt(weekPF(curDate))}</b>de 8 h de Power Fit esta semana</span>`:"";
+  if(!items.length){$("#d-itin").innerHTML=`<div class="empty">Todavía no hay nada planeado para este día. Carga tu rutina base, toma una sugerencia del calendario o agrega actividades con el formulario de abajo.</div>`;return}
+  let html="",prevEnd=null,prevTitle="",prevCat="";
+  items.forEach(i=>{
+    const s=toMin(i.start),e=toMin(i.end),off=i.status==="cancelado";
+    let clash="";
+    if(prevEnd!=null&&!off){
+      if(s<prevEnd){ if(!(prevCat==="trab"&&i.cat==="bien")) clash=`<div class="clashmsg">Se cruza con «${esc(prevTitle)}»</div>`; }
+      else if(s-prevEnd>=30) html+=`<div class="gap">Libre · ${durTxt(s-prevEnd)}</div>`;
+    }
+    html+=`<div class="it ${CAT[i.cat]?i.cat:"soc"} ${i.status||"plan"} ${clash?"clash":""}">
+      <div class="it-time"><b>${i.start}</b><span>a ${i.end}</span><span>${durTxt(e-s)}</span></div>
+      <div class="it-body">${clash}<div class="it-title">${esc(i.title)}</div>${i.place?`<div class="it-meta">${esc(i.place)}</div>`:""}${i.note?`<div class="it-note">${esc(i.note)}</div>`:""}</div>
+      <div class="it-act"><button class="btn sm" type="button" data-a="done" data-id="${i.id}" aria-pressed="${i.status==="hecho"}">${i.status==="hecho"?"Hecho":"Marcar hecho"}</button><button class="btn sm" type="button" data-a="edit" data-id="${i.id}">Editar</button><button class="btn sm" type="button" data-a="cancel" data-id="${i.id}">${off?"Reactivar":"Cancelar"}</button><button class="btn sm danger" type="button" data-a="del" data-id="${i.id}">Quitar</button></div>
+    </div>`;
+    if(!off&&(prevEnd==null||e>prevEnd)){prevEnd=e;prevTitle=i.title;prevCat=i.cat}
+  });
+  $("#d-itin").innerHTML=html;
+}
+$("#d-itin").addEventListener("click",e=>{
+  const b=e.target.closest("button[data-a]"); if(!b) return;
+  const d=ensureDay(curDate), it=d.items.find(i=>i.id===b.dataset.id); if(!it) return;
+  const a=b.dataset.a;
+  if(a==="edit") return startEdit(it.id);
+  if(a==="done") it.status=it.status==="hecho"?"plan":"hecho";
+  else if(a==="cancel") it.status=it.status==="cancelado"?"plan":"cancelado";
+  else if(a==="del"){ if(!arm(b,"¿Quitar? Sí")) return; d.items=d.items.filter(i=>i.id!==it.id); if(editId===it.id) resetForm(); }
+  saveDay(curDate); renderDay(); renderCal();
+});
+function parseSlot(t){
+  let m=/^(\d{2}:\d{2})–(\d{2}:\d{2})$/.exec(t); if(m) return [m[1],m[2]];
+  m=/^(\d{2}:\d{2}) en adelante$/.exec(t); if(m) return [m[1],"18:00"];
+  m=/^(\d{2}:\d{2})$/.exec(t); if(m) return [m[1],fromMin(toMin(m[1])+30)];
+  return {"Mañana":["07:00","12:00"],"Mediodía":["12:00","14:00"],"Tarde":["15:00","18:00"]}[t]||["09:00","10:00"];
+}
+function dayName(k){return HOL[k]?"Domingo":DOW[parseIso(k).getDay()]}
+$("#d-routine").onclick=()=>{
+  const dn=dayName(curDate), d=ensureDay(curDate); let n=0;
+  (W[dn]||[]).forEach(b=>{
+    const sl=parseSlot(b[0]), s=sl[0], e=/Dormir/.test(b[1])?"23:59":sl[1];
+    if(d.items.some(i=>i.title===b[1]&&i.start===s)) return;
+    d.items.push({id:uid8(),title:b[1],start:s,end:e,cat:b[2],place:"",note:"",ref:"rutina",status:"plan"}); n++;
+  });
+  saveDay(curDate); renderDay(); renderCal();
+  toast(n?`Se cargaron ${n} bloques de tu rutina de ${dn.toLowerCase()}${HOL[curDate]?" (festivo)":""}`:"Tu rutina ya estaba en el itinerario");
+};
+$("#d-copy").onclick=()=>{
+  const to=$("#d-copyto").value, src=dayOf(curDate).items||[];
+  if(!to){toast("Elige primero la fecha a la que quieres copiar el plan");$("#d-copyto").focus();return}
+  if(to===curDate){toast("Elige una fecha distinta a la actual");return}
+  if(!src.length){toast("Este día no tiene actividades para copiar");return}
+  const d=ensureDay(to); let n=0;
+  src.forEach(i=>{if(i.status==="cancelado"||d.items.some(x=>x.title===i.title&&x.start===i.start))return;d.items.push(Object.assign({},i,{id:uid8(),status:"plan"}));n++});
+  saveDay(to); renderCal(); toast(`Se copiaron ${n} actividades al ${longDate(to)}`);
+};
+$("#d-clear").onclick=e=>{
+  const b=e.currentTarget; if(!(dayOf(curDate).items||[]).length){toast("El itinerario ya está vacío");return}
+  if(!arm(b,"¿Vaciar? Sí")) return;
+  ensureDay(curDate).items=[]; resetForm(); saveDay(curDate); renderDay(); renderCal(); toast("Itinerario vaciado; la bitácora se conserva");
+};
+function evSlot(cat,k){
+  const dow=parseIso(k).getDay(), we=dow===0||dow===6||!!HOL[k];
+  if(cat==="pf") return dow===6?["09:00","12:30"]:["19:00","20:15"];
+  if(cat==="ej") return we?["07:00","12:00"]:["06:00","07:00"];
+  if(cat==="soc") return we?["14:30","18:00"]:["19:30","22:30"];
+  if(cat==="desc") return ["18:00","21:00"];
+  return ["20:00","20:30"];
+}
+function renderSugg(){
+  const evs=EV[curDate]||[], items=dayOf(curDate).items||[];
+  if(!evs.length){$("#d-sugg").innerHTML="";return}
+  $("#d-sugg").innerHTML=`<div class="sugg"><span class="lbl">Sugerido en tu calendario Nov–Dic</span>${evs.map((e,i)=>{const has=items.some(x=>x.title===e[0]);return `<div class="sg ${e[1]}"><span>${esc(e[0])}</span><button class="btn sm" type="button" data-ev="${i}" ${has?"disabled":""}>${has?"Agregada":"Agregar"}</button></div>`}).join("")}</div>`;
+}
+$("#d-sugg").addEventListener("click",e=>{
+  const b=e.target.closest("[data-ev]"); if(!b) return;
+  const ev=(EV[curDate]||[])[+b.dataset.ev]; if(!ev) return;
+  const sl=evSlot(ev[1],curDate);
+  ensureDay(curDate).items.push({id:uid8(),title:ev[0],start:sl[0],end:sl[1],cat:ev[1],place:"",note:"Horario sugerido: ajústalo con «Editar»",ref:"calendario",status:"plan"});
+  saveDay(curDate); renderDay(); renderCal(); toast("Agregada; ajusta el horario si hace falta");
+});
+function renderDay(){
+  const d=parseIso(curDate), rel=curDate===todayK()?" · hoy":curDate===addDays(todayK(),1)?" · mañana":"";
+  $("#d-title").textContent=`${longDate(curDate)} de ${d.getFullYear()}${rel}${HOL[curDate]?" · "+HOL[curDate]:""}`;
+  $("#d-date").value=curDate;
+  if(!$("#d-copyto").value) $("#d-copyto").value=addDays(curDate,7);
+  const y=(dayOf(addDays(curDate,-1)).log||{}).manana;
+  $("#d-prevnote").innerHTML=y?`<div class="prev"><b>Lo que te propusiste para este día:</b> ${esc(y)}</div>`:"";
+  renderItin(); renderSugg(); fillLog();
+}
+function goDate(k){if(!k)return;curDate=k;if(editId)resetForm();renderDay()}
+$("#d-prev").onclick=()=>goDate(addDays(curDate,-1));
+$("#d-next").onclick=()=>goDate(addDays(curDate,1));
+$("#d-today").onclick=()=>goDate(todayK());
+$("#d-tom").onclick=()=>goDate(addDays(todayK(),1));
+$("#d-date").onchange=e=>goDate(e.target.value);
+$("#pf-q").oninput=()=>fillPicker();
+$("#pf-pick").onchange=onPick;
+$("#pf-save").onclick=saveItem;
+$("#pf-cancel").onclick=resetForm;
+$("#pf-durs").addEventListener("click",e=>{
+  const b=e.target.closest("[data-dur]"); if(!b) return;
+  let s=toMin($("#pf-start").value); if(s==null){s=toMin(suggestStart());$("#pf-start").value=fromMin(s)}
+  $("#pf-end").value=fromMin(s+(+b.dataset.dur));
+});
+function planActivity(id){
+  resetForm(); location.hash="#dia"; fillPicker("");
+  $("#pf-pick").value="a:"+id; onPick();
+  setTimeout(()=>{$("#planform").scrollIntoView({block:"start",behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"});$("#pf-start").focus()},60);
+  toast("Revisa el horario y toca «Agregar al itinerario» ("+longDate(curDate)+")");
+}
+
+// ---------- Bitácora diaria ----------
+const SCALES=[["animo","Ánimo",["Muy bajo","Bajo","Normal","Bien","Excelente"]],["energia","Energía",["Agotado","Baja","Normal","Buena","A tope"]],["ansiedad","Ansiedad",["Tranquilo","Leve","Moderada","Alta","Muy alta"]]];
+const HABITS=["Me moví o entrené","Leí 30 minutos","Dormí 7 horas","Hice pausas activas","Comí bien y tomé agua","Pantallas fuera a las 21:30","Manejé la ansiedad sin recaer en el vicio"];
+const LOGF=[["hice","¿Qué hice hoy?","Lo que salió según el plan y lo que no"],["imprevistos","Imprevistos y cambios de plan","Qué cambió y por qué"],["contenido","Contenido para Power Fit","Tomas grabadas, ideas de ganchos, personas que conociste"],["aprendizaje","Aprendizaje del día",""],["gratitud","Gratitud","Tres cosas buenas de hoy"],["manana","Prioridad para mañana","Aparece arriba del itinerario del día siguiente"]];
+function buildLog(){
+  $("#log-fields").innerHTML=SCALES.map(([k,l,o])=>`<div class="field"><span class="lbl" id="lbl-${k}">${l}</span><div class="scale" role="group" aria-labelledby="lbl-${k}">${o.map((t,i)=>`<button class="btn sm" type="button" data-scale="${k}" data-v="${i+1}" aria-pressed="false">${i+1} · ${t}</button>`).join("")}</div></div>`).join("")
+    +`<div class="field"><label for="log-sueno">Horas de sueño anoche</label><input class="inp" id="log-sueno" type="number" min="0" max="14" step="0.5" inputmode="decimal" style="max-width:140px"></div>`
+    +`<div class="field"><span class="lbl">Hábitos cumplidos</span><div class="habits">${HABITS.map((h,i)=>`<label for="hab-${i}"><input type="checkbox" id="hab-${i}" data-hab="${i}">${esc(h)}</label>`).join("")}</div></div>`
+    +LOGF.map(([k,l,ph])=>`<div class="field"><label for="log-${k}">${l}</label><textarea class="inp" id="log-${k}" data-log="${k}" placeholder="${esc(ph)}" maxlength="2000"></textarea></div>`).join("");
+}
+function fillLog(){
+  const L=dayOf(curDate).log||{}, items=(dayOf(curDate).items||[]).filter(i=>i.status!=="cancelado");
+  document.querySelectorAll("[data-scale]").forEach(b=>b.setAttribute("aria-pressed",String(+L[b.dataset.scale]===+b.dataset.v)));
+  const sn=$("#log-sueno"); if(document.activeElement!==sn) sn.value=L.sueno!=null?L.sueno:"";
+  HABITS.forEach((h,i)=>{$("#hab-"+i).checked=(L.hab||[]).includes(h)});
+  LOGF.forEach(([k])=>{const t=$("#log-"+k); if(document.activeElement!==t) t.value=L[k]||""});
+  const done=items.filter(i=>i.status==="hecho").length;
+  $("#log-plan").textContent=items.length?`Cumpliste ${done} de ${items.length} actividades del itinerario. Márcalas como hechas en la lista de la izquierda.`:"Cuando tengas un itinerario, aquí verás cuántas actividades cumpliste.";
+  if(!dayTimers[curDate]) $("#log-saved").textContent="";
+  renderStreak();
+}
+function renderStreak(){
+  let h="";
+  for(let i=6;i>=0;i--){
+    const k=addDays(curDate,-i), n=((dayOf(k).log||{}).hab||[]).length, p=Math.round(n/HABITS.length*100), dd=parseIso(k);
+    h+=`<div title="${n} de ${HABITS.length} hábitos"><span><i style="height:${p}%"></i></span>${DOW[dd.getDay()].slice(0,2)} ${dd.getDate()}<br><b>${n}/${HABITS.length}</b></div>`;
+  }
+  $("#log-streak").innerHTML=h;
+}
+$("#log-fields").addEventListener("click",e=>{
+  const b=e.target.closest("[data-scale]"); if(!b) return;
+  const d=ensureDay(curDate), k=b.dataset.scale, v=+b.dataset.v;
+  if(+d.log[k]===v) delete d.log[k]; else d.log[k]=v;
+  fillLog(); saveDaySoon(curDate);
+});
+$("#log-fields").addEventListener("input",e=>{
+  const t=e.target, d=ensureDay(curDate);
+  if(t.dataset.log){ if(t.value) d.log[t.dataset.log]=t.value; else delete d.log[t.dataset.log]; }
+  else if(t.id==="log-sueno"){ if(t.value==="") delete d.log.sueno; else d.log.sueno=Math.max(0,Math.min(14,+t.value)); }
+  else return;
+  saveDaySoon(curDate);
+});
+$("#log-fields").addEventListener("change",e=>{
+  const t=e.target; if(t.dataset.hab==null) return;
+  const d=ensureDay(curDate), h=HABITS[+t.dataset.hab], s=new Set(d.log.hab||[]);
+  if(t.checked) s.add(h); else s.delete(h);
+  if(s.size) d.log.hab=[...s]; else delete d.log.hab;
+  renderStreak(); saveDaySoon(curDate);
+});
+
+// ---------- Crear y editar actividades ----------
+const dlg=$("#dlg");
+let afEdit=null;
+const AFX=["where","how","cost","who","expect","ben"];
+function exampleFor(n,sub){const L=allActs();return L.find(a=>a.n===n&&a.sub===sub)||L.find(a=>a.n===n)||null}
+function fillAfSub(sel){
+  const subs=subsOf($("#af-n").value);
+  $("#af-sub").innerHTML=subs.map(s=>`<option>${esc(s)}</option>`).join("")+`<option value="__new">+ Nueva subcategoría…</option>`;
+  $("#af-sub").value=subs.includes(sel)?sel:(subs[0]||"__new");
+  $("#af-subnew-w").hidden=$("#af-sub").value!=="__new";
+}
+function fillAfBase(){
+  const n=$("#af-n").value, sub=$("#af-sub").value;
+  const xs=allActs().filter(a=>a.n===n&&(sub==="__new"||a.sub===sub));
+  $("#af-base").innerHTML=`<option value="">Empezar en blanco</option>`+xs.map(a=>`<option value="${a.id}">${esc(a.name)}</option>`).join("");
+}
+function applyPlaceholders(){
+  const ex=exampleFor($("#af-n").value,$("#af-sub").value);
+  $("#af-name").placeholder=ex?"Ej.: "+ex.name:"";
+  AFX.forEach(k=>{$("#af-"+k).placeholder=ex&&ex[k]?"Ej.: "+ex[k]:""});
+}
+function openActForm(id){
+  afEdit=id||null; const a=id?actById(id):null;
+  $("#dlg-h").textContent=a?"Editar actividad":"Crear actividad";
+  $("#af-hint").textContent=a?(a.custom?"Cambia lo que necesites y guarda.":"Los datos originales se conservan: puedes volver a ellos con «Restaurar original»."):"Llena los campos como en las demás actividades. Los ejemplos grises cambian según el nicho y la subcategoría que elijas.";
+  $("#af-n").innerHTML=NICHOS.map(([k,l])=>`<option value="${k}">${esc(l)}</option>`).join("");
+  $("#af-n").value=a?a.n:(st.n||"D");
+  fillAfSub(a?a.sub:st.sub);
+  $("#af-subnew").value="";
+  $("#af-tier").innerHTML=TIER.map((t,i)=>`<option value="${i}">${t}</option>`).join("");
+  const series=[...new Set(allActs().map(x=>x.serie).filter(Boolean))];
+  $("#af-serie").innerHTML=`<option value="">Sin serie</option>`+series.map(s=>`<option>${esc(s)}</option>`).join("");
+  $("#af-name").value=a?a.name:"";
+  AFX.forEach(k=>{$("#af-"+k).value=a?(a[k]||""):""});
+  $("#af-tier").value=a?String(a.tier):"1";
+  $("#af-serie").value=a?(a.serie||""):"";
+  $("#af-src").value=a&&a.custom?(a.src||""):"";
+  $("#af-src-w").hidden=!!(a&&!a.custom);
+  $("#af-base-w").hidden=!!a;
+  fillAfBase(); applyPlaceholders();
+  $("#af-err").textContent="";
+  if(typeof dlg.showModal==="function"){ if(!dlg.open) dlg.showModal(); } else dlg.setAttribute("open","");
+  $("#af-name").focus();
+}
+function closeDlg(){if(typeof dlg.close==="function"&&dlg.open)dlg.close();else dlg.removeAttribute("open")}
+$("#af-n").onchange=()=>{fillAfSub("");fillAfBase();applyPlaceholders()};
+$("#af-sub").onchange=()=>{$("#af-subnew-w").hidden=$("#af-sub").value!=="__new";fillAfBase();applyPlaceholders()};
+$("#af-base").onchange=e=>{
+  const a=actById(e.target.value); if(!a) return;
+  AFX.forEach(k=>{$("#af-"+k).value=a[k]||""});
+  $("#af-tier").value=String(a.tier); $("#af-serie").value=a.serie||"";
+  $("#af-name").focus();
+};
+$("#af").addEventListener("submit",e=>e.preventDefault());
+$("#af-cancel").onclick=closeDlg;
+function saveAct(addAfter){
+  const err=$("#af-err"), name=$("#af-name").value.trim();
+  if(!name){err.textContent="Escribe el nombre de la actividad.";$("#af-name").focus();return}
+  let sub=$("#af-sub").value;
+  if(sub==="__new"){sub=$("#af-subnew").value.trim();if(!sub){err.textContent="Escribe el nombre de la nueva subcategoría.";$("#af-subnew").focus();return}}
+  const src=$("#af-src").value.trim();
+  if(src&&!/^https?:\/\//i.test(src)){err.textContent="El enlace de la fuente debe empezar por https://";$("#af-src").focus();return}
+  const v={n:$("#af-n").value,sub,name,tier:$("#af-tier").value,serie:$("#af-serie").value};
+  AFX.forEach(k=>{v[k]=$("#af-"+k).value.trim()});
+  let id=afEdit;
+  if(afEdit&&afEdit[0]==="b"){
+    const base=BASE_ACTS.find(o=>o.id===afEdit); v.src=base.src;
+    const same=FIELDS.every(k=>String(base[k]==null?"":base[k])===String(v[k]==null?"":v[k]));
+    if(same) delete S.overrides[afEdit]; else S.overrides[afEdit]=v;
+  } else if(afEdit){
+    const i=S.custom.findIndex(c=>c.id===afEdit); v.id=afEdit; v.src=src; if(i>=0) S.custom[i]=v; else S.custom.push(v);
+  } else {
+    id="c"+uid8(); v.id=id; v.src=src; S.custom.push(v);
+  }
+  saveActs(); closeDlg(); renderAll();
+  toast(afEdit?"Actividad actualizada":"Actividad creada en "+(NN[v.n]||"")+" · "+sub);
+  if(addAfter) planActivity(id);
+}
+$("#af-save").onclick=()=>saveAct(false);
+$("#af-save-add").onclick=()=>saveAct(true);
+
+function renderAll(){renderStats();renderChips();renderSubs();renderGrid();fillPicker();renderDay();renderCal()}
+
+// ---------- Rutas ----------
+const VIEWS=["actividades","dia","semana","calendario"];
+function show(){
+  const v=VIEWS.includes(location.hash.slice(1))?location.hash.slice(1):"actividades";
+  VIEWS.forEach(x=>{$("#v-"+x).hidden=x!==v});
+  document.querySelectorAll("nav.tabs a").forEach(a=>{if(a.dataset.view===v)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current")});
+  if(v==="dia") renderDay();
+}
+window.addEventListener("hashchange",show);
+lsLoad(); buildLog();
+$("#pf-cat").innerHTML=Object.entries(CAT).map(([k,l])=>`<option value="${k}">${l}</option>`).join("");
+$("#pf-durs").innerHTML=[30,60,90,120,180,240].map(m=>`<button class="btn sm" type="button" data-dur="${m}">${durTxt(m)}</button>`).join("");
+resetForm();
+renderStats();renderChips();renderSubs();renderGrid();renderWeek();renderCal();renderDay();show();
+connect();
+</script>
+
+</body></html>
