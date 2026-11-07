@@ -9,6 +9,15 @@ Agenda personal de Power Fit en Bogotá: catálogo de 143 actividades, itinerari
 | `index.html` | La app completa, con imágenes y logo incluidos. |
 | `api/state.js` | Función de Vercel que guarda tus datos y los sincroniza entre navegadores. |
 
+## Qué trae
+
+- **Catálogo de 200 actividades** en seis nichos, con precios de referencia y fuentes verificadas en noviembre de 2026.
+- **Ruleta de la suerte** en la página de inicio: escoge al azar una actividad del catálogo (con filtros de nicho y presupuesto) y la lleva a tu día.
+- **Mi día**: itinerario con línea de tiempo, anillos de progreso, bitácora y botón para compartir el plan con emojis por WhatsApp o Instagram.
+- **Hábitos editables**: renombra, cambia el ícono, ordena, oculta o agrega hábitos (hay 20 ideas listas) y elige cuántos cuentan para la racha. El historial nunca se borra.
+- **Mi semana y Calendario en tiempo real**: todo lo que planeas o marcas en Mi día aparece al instante en la semana y en el calendario, también en tus otros dispositivos.
+- **Sin pérdidas al quedarte sin internet**: los cambios que no alcanzan a sincronizar quedan pendientes y se envían solos al reconectar.
+
 ## Publicar en Vercel con sincronización
 
 1. **Sube los archivos.** En este repositorio: *Add file → Upload files*, arrastra `index.html` y la carpeta `api` (con `state.js` adentro) y confirma el commit.
